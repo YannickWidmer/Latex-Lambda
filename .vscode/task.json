@@ -1,0 +1,56 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "upload lambda",
+            "type": "shell",
+            "command": "${workspaceRoot}/scripts/upload_lambda.sh",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "upload templates",
+            "type": "shell",
+            "command": "aws s3 cp ${workspaceRoot}/templates s3://ds-temp-stg/latex_template_test --recursive --exclude \"*\" --include \"*.tex\" --include \"*.py\"",
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "test local",
+            "type": "shell",
+            "command": "${workspaceRoot}/venv/bin/python3.6 ${workspaceRoot}/scripts/test_local.py",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "test lambda",
+            "type": "shell",
+            "command": "${workspaceRoot}/venv/bin/python3.6 ${workspaceRoot}/scripts/test_lambda.py",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
