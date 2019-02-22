@@ -1,0 +1,172 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+
+\usepackage{mathptmx}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1em}
+
+
+\newcommand{\VAR}[1]{{\color{blue}#1}}
+\newcommand{\BLOCK}[1]{{\smallskip \color{red}#1 \\ }}
+\makeatletter
+\makeatother
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{document}
+\begin{center}
+{\scshape\Large \par}
+\vspace{1cm}
+{\huge\bfseries CONFIDENTIALITY AGREEMENT \par}
+\vspace{1cm}
+\end{center}
+
+Hello documents
+
+This Confidentiality Agreement (the "{\bf Agreement}") is entered into as of  \VAR{contractDated}  (the  "{\bf Effective Date}") by  \VAR{ownerDescription}, and  \VAR{recipientDescription}.
+
+\section{Background}
+
+The Client and the Consultant (the "{\bf Parties}") intend to engage in discussions and negotiations concerning the possible establishment of a business relationship between them.
+
+% The next paragraph depends on the client and consultant being a company or an individual the variable containing this information is isCompany
+% and contains [Yes|No][Yes|No], the first Yes no stands for the consultant and the second for the client. i.e. if both are a company the variable will be YesYes.
+ \VAR{
+    {
+        'YesYes':'In the course of such discussions and negotiations and in the course of any such business relationship, it is anticipated that each party will disclose or deliver to the other party and to the other party’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "{\\bf Representatives}") certain of its trade secrets or confidential or proprietary information for the purposes of enabling the other party to evaluate the feasibility of such business relationship and to perform its obligations and exercise its rights under any such business relationship that is agreed to between the parties (the "{\\bf Purposes}").',
+        'NoNo':'In the course of such discussions and negotiations and in the course of any such business relationship, it is anticipated that each party will disclose or deliver to the other party certain of his trade secrets or confidential or proprietary information for the purposes of enabling the other party to evaluate the feasibility of such business relationship and to perform his or its obligations and exercise his or its rights under any such business relationship that is agreed to between the parties (the "{\\bf Purposes}").',
+        'YesNo':'In the course of such discussions and negotiations and in the course of any such business relationship, it is anticipated that each party will disclose or deliver to the other party and, in the case of the Consultant, to the Consultants directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "{\\bf Representatives}") certain of his or its trade secrets or confidential or proprietary information for the purposes of enabling the other party to evaluate the feasibility of such business relationship and to perform his or its obligations and exercise his or its rights under any such business relationship that is agreed to between the parties (the "{\\bf Purposes}").',
+        'NoYes':'In the course of such discussions and negotiations and in the course of any such business relationship, it is anticipated that each party will disclose or deliver to the other party and, in the case of the Client, to the Client’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "{\\bf Representatives}") certain of his or its trade secrets or confidential or proprietary information for the purposes of enabling the other party to evaluate the feasibility of such business relationship and to perform his or its obligations and exercise his or its rights under any such business relationship that is agreed to between the parties (the 	"{\\bf Purposes}").'
+    }[isCompany]
+}
+
+The parties have entered into this Agreement in order to assure the confidentiality of such trade secrets and confidential or proprietary information in accordance with the terms of this Agreement.  As used in this Agreement, the party disclosing Proprietary Information (as defined below) is referred to as the "{\bf Disclosing Party}"; the party receiving such Proprietary Information is referred to as the "{\bf Recipient}".
+
+\section{Proprietary Information}
+As used in this Agreement, the term "{\bf Proprietary Information}" shall mean all trade secrets or confidential or proprietary information designated as such in writing by the Disclosing Party, whether by letter or by the use of an appropriate proprietary stamp or legend, prior to or at the time any such trade secret or confidential or proprietary information is disclosed by the Disclosing Party to the Recipient.
+
+\section{Scope of Agreement}
+This Agreement shall apply to all Proprietary Information disclosed between the parties hereto, whether before, on or after the date hereof.
+
+\section{Use and Disclosure of Proprietary Information}\label{sec:discl}
+% (Same as above) The next paragraph depends on the client and consultant being a company or an individual the variable containing this information is isCompany
+% and contains [Yes|No][Yes|No], the first Yes no stands for the consultant and the second for the client. i.e. if both are a company the variable will be YesYes.
+\VAR{
+    {
+        'YesYes':'The Recipient and its Representatives shall use the Proprietary Information of the Disclosing Party only for the Purposes and such Proprietary Information shall not be used for any other purpose without the prior written consent of the Disclosing Party. Without limitation of the foregoing, the Recipient shall not cause or permit reverse engineering of any Proprietary Information or decompilation or disassembly of any software programs which are part of the Proprietary Information. The Recipient and its Representatives shall hold in confidence, and shall not disclose any Proprietary Information of the Disclosing Party; provided, however, that (i) the Recipient may make any disclosure of such information to which the Disclosing Party gives its prior written consent; and (ii) any of the Proprietary Information may be disclosed by the Recipient to its Representatives who need to know such information in connection with the Purposes, or to prospective investors, lenders or acquirors as part of their due diligence investigations, and in each case who are informed of the confidential nature of such information and of the terms of this Agreement. In any event, the Recipient shall be responsible for any breach of this Agreement by any of its Representatives or such parties, and agrees, at its sole expense, to take reasonable measures to restrain its Representatives and such parties from prohibited or unauthorized disclosure or use of the Proprietary Information.',
+        'NoNo':'The Recipient shall use the Proprietary Information of the Disclosing Party only for the Purposes and such Proprietary Information shall not be used for any other purpose without the prior written consent of the Disclosing Party. Without limitation of the foregoing, the Recipient shall not cause or permit reverse engineering of any Proprietary Information or decompilation or disassembly of any software programs which are part of the Proprietary Information. The Recipient shall hold in confidence, and shall not disclose any Proprietary Information of the Disclosing Party; provided, however, that the Recipient may make any disclosure of such information to which the Disclosing Party gives its prior written consent.',
+        'YesNo':'The Recipient and, in the case of the Consultant, its Representatives, shall use the Proprietary Information of the Disclosing Party only for the Purposes and such Proprietary Information shall not be used for any other purpose without the prior written consent of the Disclosing Party. Without limitation of the foregoing, the Recipient shall not cause or permit reverse engineering of any Proprietary Information or decompilation or disassembly of any software programs which are part of the Proprietary Information. The Recipient and, in the case of the Consultant, its Representatives shall hold in confidence, and shall not disclose any Proprietary Information of the Disclosing Party; provided, however, that (i) the Recipient may make any disclosure of such information to which the Disclosing Party gives its prior written consent; and (ii) any of the Proprietary Information may be disclosed by the Consultant to its Representatives who need to know such information in connection with the Purposes, or to prospective investors, lenders or acquirors as part of their due diligence investigations, and in each case who are informed of the confidential nature of such information and of the terms of this Agreement. In any event, the Consultant shall be responsible for any breach of this Agreement by any of its Representatives or such parties, and agrees, at its sole expense, to take reasonable measures to restrain its Representatives and such parties from prohibited or unauthorized disclosure or use of the Proprietary Information.',
+        'NoYes':'The Recipient and, in the case of the Client, its Representatives, shall use the Proprietary Information of the Disclosing Party only for the Purposes and such Proprietary Information shall not be used for any other purpose without the prior written consent of the Disclosing Party. Without limitation of the foregoing, the Recipient shall not cause or permit reverse engineering of any Proprietary Information or decompilation or disassembly of any software programs which are part of the Proprietary Information. The Recipient and, in the case of the Client, its Representatives shall hold in confidence, and shall not disclose any Proprietary Information of the Disclosing Party; provided, however, that (i) the Recipient may make any disclosure of such information to which the Disclosing Party gives its prior written consent; and (ii) any of the Proprietary Information may be disclosed by the Client to its Representatives who need to know such information in connection with the Purposes, or to prospective investors, lenders or acquirors as part of their due diligence investigations, and in each case who are informed of the confidential nature of such information and of the terms of this Agreement. In any event, the Client shall be responsible for any breach of this Agreement by any of its Representatives or such parties, and agrees, at its sole expense, to take reasonable measures to restrain its Representatives and such parties from prohibited or unauthorized disclosure or use of the Proprietary Information.'
+    }[isCompany]
+}
+Notwithstanding anything contained in this Agreement to the contrary, this Agreement shall not prohibit the Recipient from disclosing Proprietary Information of the Disclosing Party to the extent required in order for the Recipient to comply with applicable laws and regulations, provided that the Recipient provides prior written notice of such required disclosure to the Disclosing Party and takes reasonable and lawful actions to avoid and/or minimize the extent of such disclosure.
+
+\section{Limitation on Obligations}\label{sec:limitOblig}
+The obligations of the Recipient specified in Section \ref{sec:discl} shall not apply, and the Recipient shall have no further obligations, with respect to any Proprietary Information to the extent the Recipient can demonstrate, by clear and convincing evidence, that such Proprietary Information:
+\begin{enumerate}[a)]
+\item
+% (Same as above) The next paragraph depends on the client and consultant being a company or an individual the variable containing this information is isCompany
+% and contains [Yes|No][Yes|No], the first Yes no stands for the consultant and the second for the client. i.e. if both are a company the variable will be YesYes.
+\VAR{
+    {
+        'YesYes':'is generally known to the public at the time of disclosure or becomes generally known without the Recipient or its Representatives violating this Agreement;',
+        'NoNo':'is generally known to the public at the time of disclosure or becomes generally known without the Recipient violating this Agreement;',
+        'YesNo':'is generally known to the public at the time of disclosure or becomes generally known without the Recipient or, in the case of the Consultant, its Representatives, violating this Agreement;',
+        'NoYes':'is generally known to the public at the time of disclosure or becomes generally known without the Recipient or, in the case of the Client, its Representatives, violating this Agreement;'
+    }[isCompany]
+}
+\item is in the Recipient’s possession at the time of disclosure;
+\item becomes known to the Recipient through disclosure by sources other than the Disclosing Party without such sources violating any confidentiality obligations to the Disclosing Party; or
+\item is independently developed by the Recipient without reference to or reliance upon the Disclosing Party's Proprietary Information.
+\end{enumerate}
+
+\section{Ownership of Proprietary Information}
+The Recipient agrees that it shall not receive any right, title or interest in, or any license or right to use, the Disclosing Party's Proprietary Information or any patent, copyright, trade secret, trademark or other intellectual property rights therein, by implication or otherwise.
+Each of the parties hereto represents, warrants and covenants that the trade secrets which it discloses to the other party pursuant to this Agreement have not been stolen, appropriated, obtained or converted without authorization.
+
+\section{Return of Proprietary Information}
+% (Same as above) The next paragraph depends on the client and consultant being a company or an individual the variable containing this information is isCompany
+% and contains [Yes|No][Yes|No], the first Yes no stands for the consultant and the second for the client. i.e. if both are a company the variable will be YesYes.
+\VAR{
+    {
+        'YesYes':'The Recipient shall, upon the written request of the Disclosing Party, return to the Disclosing Party all Proprietary Information received by the Recipient or its Representatives from the Disclosing Party (and all copies and reproductions thereof). In addition, the Recipient shall destroy:  (i) any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party; and (ii) any Proprietary Information of the Disclosing Party (and all copies and reproductions thereof) which is in electronic form or cannot otherwise be returned to the Disclosing Party. Alternatively, upon written request of the Disclosing Party, the Recipient shall destroy all Proprietary Information received by the Recipient or its Representatives from the Disclosing Party (and all copies and reproduction thereof) and any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party. Notwithstanding the return or destruction of the Proprietary Information, the Recipient and its Representatives will continue to be bound by their obligations of confidentiality and other obligations hereunder.',
+        'NoNo':'The Recipient shall, upon the written request of the Disclosing Party, return to the Disclosing Party all Proprietary Information received by the Recipient from the Disclosing Party (and all copies and reproductions thereof). In addition, the Recipient shall destroy:  (i) any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party; and (ii) any Proprietary Information of the Disclosing Party (and all copies and reproductions thereof) which is in electronic form or cannot otherwise be returned to the Disclosing Party. Alternatively, upon written request of the Disclosing Party, the Recipient shall destroy all Proprietary Information received by the Recipient (and all copies and reproduction thereof) and any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party. Notwithstanding the return or destruction of the Proprietary Information, the Recipient will continue to be bound by their obligation of confidentiality and other obligations hereunder.',
+        'YesNo':'The Recipient shall, upon the written request of the Disclosing Party, return to the Disclosing Party all Proprietary Information received by the Recipient or, in the case of the Consultant, its Representatives, from the Disclosing Party (and all copies and reproductions thereof). In addition, the Recipient shall destroy:  (i) any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party; and (ii) any Proprietary Information of the Disclosing Party (and all copies and reproductions thereof) which is in electronic form or cannot otherwise be returned to the Disclosing Party. Alternatively, upon written request of the Disclosing Party, the Recipient shall destroy all Proprietary Information received by the Recipient or, in the case of the Consultant, its Representatives, from the Disclosing Party (and all copies and reproduction thereof) and any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party. Notwithstanding the return or destruction of the Proprietary Information, the Recipient and, in the case of the Consultant, its Representatives, will continue to be bound by their obligations of confidentiality and other obligations hereunder.',
+        'NoYes':'The Recipient shall, upon the written request of the Disclosing Party, return to the Disclosing Party all Proprietary Information received by the Recipient or, in the case of the Client, its Representatives, from the Disclosing Party (and all copies and reproductions thereof). In addition, the Recipient shall destroy:  (i) any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party; and (ii) any Proprietary Information of the Disclosing Party (and all copies and reproductions thereof) which is in electronic form or cannot otherwise be returned to the Disclosing Party. Alternatively, upon written request of the Disclosing Party, the Recipient shall destroy all Proprietary Information received by the Recipient or, in the case of the Client, its Representatives, from the Disclosing Party (and all copies and reproduction thereof) and any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party. Notwithstanding the return or destruction of the Proprietary Information, the Recipient and, in the case of the Client, its Representatives, will continue to be bound by their obligations of confidentiality and other obligations hereunder.'
+    }[isCompany]
+}
+The Recipient's legal counsel may retain one copy of the Disclosing Party's Proprietary Information for archival purposes only.
+
+\section{Term and Termination}
+This Agreement is effective as of the Effective Date and shall continue in full force and effect until the {agreementExpireInYears}-year anniversary thereof. Either party may terminate this Agreement, for any reason or for no reason, upon \VAR{contractEndWithinDaysWord} (\VAR{contractEndWithinDays}) days prior written notice to the other party.
+\BLOCK{ if isDisclosurePerpetual }
+    The obligations of the Recipient specified in Section \ref{sec:discl} shall continue after expiration or termination of this Agreement with respect to each item of Proprietary Information disclosed hereunder until and unless one of the exceptions set forth in Section \ref{sec:limitOblig} applies to such item of Proprietary Information.
+\BLOCK{ else }
+    Notwithstanding such expiration or termination, the obligations of the Recipient specified in Section \ref{sec:discl} shall continue with respect to a particular item of Proprietary Information until the \VAR{disclosureExpireInYears}-year anniversary of the disclosure of such Proprietary Information to Recipient hereunder; provided, however, that such obligations shall continue with respect to any Proprietary Information that is software (whether in source code or object code form) or that constitutes a trade secret until and unless one of the exceptions set forth in Section \ref{sec:limitOblig} applies to such item of Proprietary Information.
+\BLOCK{ endif }
+
+\section{Miscellaneous}
+
+\begin{enumerate}[a)]
+\item This Agreement supersedes all prior agreements, written or oral, between the parties relating to the subject matter of this Agreement.  This Agreement may not be modified, changed or discharged, in whole or in part, except by an agreement in writing signed by the parties.
+\item This Agreement will be binding upon and inure to the benefit of the parties and their respective heirs, successors and assigns.
+\item This Agreement shall be construed and interpreted in accordance with the internal laws of the State of \VAR{lawState}, without giving effect to the principles of conflicts of law thereof.
+\item The provisions of this Agreement are necessary for the protection of the business and goodwill of the parties and are considered by the parties to be reasonable for such purpose.  The Recipient agrees that any breach of this Agreement will cause the Disclosing Party substantial and irreparable injury and, therefore, in the event of any such breach, in addition to other remedies which may be available, the Disclosing Party shall have the right to specific performance and other injunctive and equitable relief.
+\item For the convenience of the parties, this Agreement may be executed by facsimile and in counterparts, each of which shall be deemed to be an original, and both of which taken together, shall constitute one agreement binding on both parties.
+\end{enumerate}
+
+\BLOCK{if toPdf}
+\vspace{1cm}
+\begin{center}
+[Remainder of Page Intentionally Left Blank]
+\end{center}
+\newpage
+\BLOCK{else}
+\vspace{4cm}
+\BLOCK{endif}
+
+IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement as of the date and year first above written.\\
+
+
+\renewcommand{\arraystretch}{1.5}
+\vspace{4cm}
+\begin{minipage}{.5\textwidth} %
+Signed for and on behalf of \VAR{ownerName}
+
+\vspace{12pt}
+\begin{tabular}{ll}
+ By & \VAR{signatureOwner} \\
+ \BLOCK{if isOwnerCompany}
+ & \VAR{ownerRepresentantName}, \VAR{ownerRepresentantTitle}
+ \BLOCK{else}
+  &\VAR{ownerName}
+ \BLOCK{endif}\\
+ Date & \VAR{ownerSignDate}
+\end{tabular}
+\end{minipage}
+\begin{minipage}{.5\textwidth} %
+%% if not toPdf
+\HCode{<p class="noindent" >}
+%% endif
+Signed for and on behalf of \VAR{recipientName}
+%% if not toPdf
+\HCode{</p>}
+%% endif
+
+\vspace{12pt}
+\begin{tabular}{ll}
+ By & \VAR{signatureRecipient} \\
+ \BLOCK{if isRecipientCompany}
+ & \VAR{recipientRepresentantName}, \VAR{recipientRepresentantTitle}
+ \BLOCK{else}
+  &\VAR{recipientName}
+ \BLOCK{endif}\\
+ Date & \VAR{recipientSignDate}
+\end{tabular}
+\end{minipage}
+\end{document}
+
+
+

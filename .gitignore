@@ -1,0 +1,8 @@
+latexlambda/latexlambda.zip
+latexlambda/__pycache__/*
+latexlambda/python_packages/*
+test_output/*
+venv/*
+latexlambda/.DS_Store
+.vscode/settings.json
+.DS_Store
