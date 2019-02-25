@@ -52,7 +52,7 @@ In this example the `pdf` file is returned as a string. Replacing `"to_pdf": Tru
 Note that the dict `res` contains the keys `stdout`, `tex`, `path`, `pdf`, and  `log`. And in  the case when `"to_pdf": False` the keys `stdout`, `tex`, `path`, `html`, `css`, and  `log`.
 The remaining content is sent for debugging purposes when developing new templates. The entries `tex`, `stdout`, `path` and `log` are sent as plain string all others are base64 encoded.
 
-Finally in case an error occures it res contains `errorMessage`, `errorType`,and `stackTrace`, all as plain text.
+Finally in case an error occures res contains `errorMessage`, `errorType`,and `stackTrace`, all as plain text.
 
 # Structure of this repository
 
