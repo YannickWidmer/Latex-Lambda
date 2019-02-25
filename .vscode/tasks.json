@@ -42,7 +42,7 @@
         {
             "label": "test lambda",
             "type": "shell",
-            "command": "${workspaceRoot}/venv/bin/python3 ${workspaceRoot}/scripts/test_lambda.py",
+            "command": "python3 ${workspaceRoot}/scripts/test_lambda.py",
             "options": {
                 "cwd": "${workspaceRoot}"
             },
