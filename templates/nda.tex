@@ -147,13 +147,13 @@ Signed for and on behalf of \VAR{ownerName}
 \end{tabular}
 \end{minipage}
 \begin{minipage}{.5\textwidth} %
-%% if not toPdf
+\BLOCK{if not toPdf}
 \HCode{<p class="noindent" >}
-%% endif
+\BLOCK{ endif }
 Signed for and on behalf of \VAR{recipientName}
-%% if not toPdf
+\BLOCK{if not toPdf}
 \HCode{</p>}
-%% endif
+\BLOCK{ endif }
 
 \vspace{12pt}
 \begin{tabular}{ll}
