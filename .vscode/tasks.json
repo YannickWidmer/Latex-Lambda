@@ -27,9 +27,9 @@
             "problemMatcher": []
         },
         {
-            "label": "test local",
+            "label": "test server",
             "type": "shell",
-            "command": "${workspaceRoot}/venv/bin/python3.6 ${workspaceRoot}/scripts/test_local.py",
+            "command": "${workspaceRoot}/venv/bin/python3.6 ${workspaceRoot}/scripts/start_flask_server.sh",
             "options": {
                 "cwd": "${workspaceRoot}"
             },
