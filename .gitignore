@@ -6,3 +6,4 @@ venv/*
 latexlambda/.DS_Store
 .vscode/settings.json
 .DS_Store
+server/pdf_server.egg-info/*

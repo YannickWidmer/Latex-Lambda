@@ -1,4 +1,3 @@
 cd server
 pip install --editable .
-cd pdf_server
-python app.py
+../venv/bin/python3 app.py

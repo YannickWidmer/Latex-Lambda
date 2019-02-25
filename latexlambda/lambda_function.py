@@ -56,7 +56,7 @@ def render(json_data):
         comment_end_string='}',
         line_statement_prefix='%%',
         line_comment_prefix='%#',
-        trim_blocks=True,
+        trim_blocks=False,
         autoescape=False,
         loader=jinja2.FileSystemLoader(os.path.join('/tmp', 'templates')))
     # retrieve the jinja template

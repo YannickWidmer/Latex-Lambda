@@ -129,7 +129,7 @@ To add a new template simply add a file ending with `.tex` and another with the 
 ```python
 def render(data, to_pdf):
 ```
-which returns a dict. This dict is what will be passed to jinja when rendering the template, meaning that if it returns `{"name":"John Doe"}` and the tex file contains `\VAR{ name }` this will be replaced with `John Doe`.
+which returns a dict. This dict is what will be passed to jinja when rendering the template, meaning that if it returns `{"name":"John Doe"}` and the tex file contains `\VAR{ name }` this will be replaced with `John Doe`. **Python libraries used in this class need to be in `latexlambda/requirements.txt`**.
 
 Note that when reading Jinja resources, the Jinja Environment used in the lambda is
 
@@ -143,9 +143,29 @@ jinja2.Environment(
         comment_end_string='}',
         line_statement_prefix='%%',
         line_comment_prefix='%#',
-        trim_blocks=True,
+        trim_blocks=False,
         autoescape=False,
         loader=jinja2.FileSystemLoader(os.path.join('/tmp', 'templates')
 ```
 
 To start a new template, a good start is to copy `template.py` and `template.tex` and replace the names with the new template name. Write the python file expecting whatever will be send to the lambda function and returning the dict for Jinja. Also make sure to do data validation inside this function.
+
+## Upload templates
+
+The templates can be uploaded using the vs code task `build` -> `upload templates` or by running
+```sh
+aws s3 cp templates/ s3://ds-temp-stg/latex_template_test --recursive --exclude \"*\" --include \"*.tex\" --include \"*.py\"
+```
+**Make sure to have configured the aws cli with an Access Key Pair for staging AWS.**
+
+# Testing
+
+To test the lambda function simply run `scripts/test_lambda.py`. To test new templates simply add an entry at the end like the following
+
+```python
+test_template({template_name},{the_data_to_be_send},{true_or_false})
+```
+
+To test how it will render in the browser run the test server after changing the template name and data sent. Thissimulates how a browser display the generated html using the static css file `server/static/style.css`.
+
+If something is not displayed as whished change the css file until this is reached. We then need to implement the css change in the actual app.

@@ -29,7 +29,7 @@
         {
             "label": "test server",
             "type": "shell",
-            "command": "${workspaceRoot}/venv/bin/python3.6 ${workspaceRoot}/scripts/start_flask_server.sh",
+            "command": "${workspaceRoot}/scripts/start_flask_server.sh",
             "options": {
                 "cwd": "${workspaceRoot}"
             },
@@ -42,7 +42,7 @@
         {
             "label": "test lambda",
             "type": "shell",
-            "command": "${workspaceRoot}/venv/bin/python3.6 ${workspaceRoot}/scripts/test_lambda.py",
+            "command": "${workspaceRoot}/venv/bin/python3 ${workspaceRoot}/scripts/test_lambda.py",
             "options": {
                 "cwd": "${workspaceRoot}"
             },
