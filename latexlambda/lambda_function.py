@@ -54,14 +54,14 @@ def render(json_data):
         variable_end_string='}',
         comment_start_string='\#{',
         comment_end_string='}',
-        line_statement_prefix='%%',
+        line_statement_prefix='%[',
         line_comment_prefix='%#',
         trim_blocks=False,
         autoescape=False,
         loader=jinja2.FileSystemLoader(os.path.join('/tmp', 'templates')))
     # retrieve the jinja template
     template = latex_jinja_env.get_template('template.tex')
-    ## import the according class for this template
+    # import the according class for this template
     return template.render(**json_data)
 
 
