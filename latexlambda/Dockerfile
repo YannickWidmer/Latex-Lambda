@@ -32,7 +32,6 @@ RUN tlmgr install xcolor \
                   etoolbox \
                   booktabs \
                   lastpage \
-                  marginnote \
                   tabu \
                   varwidth \
                   makecell \
