@@ -31,7 +31,7 @@ def get_html(data):
     res = ast.literal_eval(response['Payload'].read().decode())
     if 'html' not in res:
         raise ValueError(res)
-    return render_template('edit_pane.html',content=base64.b64decode(res['html']))
+    return render_template('edit_pane.html',content=res['html'])
 
 def get_pdf(data):
     payload = json.dumps(data)

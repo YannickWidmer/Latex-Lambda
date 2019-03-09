@@ -123,7 +123,7 @@ def compiler(tex, to_pdf):
     # Read "document.html"...
         with open("document.html", "rb") as html_file:
             soup = BeautifulSoup(html_file.read(), 'html.parser')
-            res['html'] = base64.b64encode(soup.find('body')).decode('ascii')
+            res['html'] = str(soup.find('body'))
 
     # Read "document.css"...
     try:
