@@ -3,7 +3,6 @@ import json
 import boto3
 import os
 import ast
-from bs4 import BeautifulSoup
 
 #!flask/bin/python
 from flask import Flask, render_template, url_for, redirect, request, send_file
@@ -30,10 +29,9 @@ def get_html(data):
         InvocationType='RequestResponse',
         Payload=payload,)
     res = ast.literal_eval(response['Payload'].read().decode())
-    soup = BeautifulSoup(base64.b64decode(res['html']), 'html.parser')
-    body = soup.find('body')
-    the_contents_of_body_without_body_tags = body
-    return render_template('edit_pane.html',content=the_contents_of_body_without_body_tags)
+    if 'html' not in res:
+        raise ValueError(res)
+    return render_template('edit_pane.html',content=base64.b64decode(res['html']))
 
 def get_pdf(data):
     payload = json.dumps(data)
@@ -42,8 +40,9 @@ def get_pdf(data):
         FunctionName="latex_compiler",
         InvocationType='RequestResponse',
         Payload=payload,)
-
     res = ast.literal_eval(response['Payload'].read().decode())
+    if 'pdf' not in res:
+        raise ValueError(res)
     outdir = os.path.join(os.getcwd(),'/tmp')
     with open(os.path.join(outdir, 'document.pdf'), 'wb+') as outfile:
             outfile.write(base64.b64decode(res['pdf']))
@@ -54,24 +53,27 @@ def main_page():
     return get_html( {
     "name": "nda",
     "data": {
-            "ownerName": "Yannick:Owner",
-            "recipientName": "tispr:Recipient",
-            "contractDated": "1/1/2019",
-            "contractEndWithinDays": 7,
-            "isDisclosurePerpetual": False,
-            "lawState": "California:lawState",
-            "isOwnerCompany": False,
-            "isRecipientCompany": True,
-            "recipientRepresentantName": "Jonathan:Recipient",
-            "recipientRepresentantTitle": "Boss:recipient",
-            "ownerRole": "Client",
-            "ownerAddress": "8123 McConnell:OwnerAddress",
-            "ownerState": "California:OwnerState",
-            "ownerZipCode": "90045:OwnerZip",
-            "recipientAddress": "8123 McConnell:RecipientAddress",
-            "recipientState": "California:Recipient",
-            "recipientZipCode": "90045:recipient"
-        },
+        "ownerName": "Yannick",
+        "recipientName": "tispr",
+        "isEffectiveDateSpecific": True,
+        "contractDated": "1/1/2019",
+        "contractEndWithinDays": 7,
+        "isDisclosurePerpetual": False,
+        "lawState": "California",
+        "isOwnerCompany": False,
+        "isRecipientCompany": True,
+        "recipientRepresentantName": "Jonathan",
+        "recipientRepresentantTitle": "Boss",
+        "ownerRole": "Client",
+        "ownerAddress": "8123 McConnell",
+        "ownerCity": "Westchester",
+        "ownerState": "California:OwnerState",
+        "ownerZipCode": "90045:OwnerZip",
+        "recipientAddress": "8123 McConnell",
+        "recipientCity": "Santa Monica",
+        "recipientState": "California",
+        "recipientZipCode": "90045"
+    },
     "to_pdf": False
     })
 
@@ -86,21 +88,24 @@ def submit():
         "data": {
                 "ownerName": ownerName,
                 "recipientName": recipientName,
+                "isEffectiveDateSpecific": True,
                 "contractDated": "1/1/2019",
                 "contractEndWithinDays": 7,
                 "isDisclosurePerpetual": False,
-                "lawState": "California:lawState",
+                "lawState": "California",
                 "isOwnerCompany": False,
                 "isRecipientCompany": True,
-                "recipientRepresentantName": "Jonathan:Recipient",
-                "recipientRepresentantTitle": "Boss:recipient",
+                "recipientRepresentantName": "Jonathan",
+                "recipientRepresentantTitle": "Boss",
                 "ownerRole": "Client",
-                "ownerAddress": "8123 McConnell:OwnerAddress",
+                "ownerAddress": "8123 McConnell",
+                "ownerCity": "Westchester",
                 "ownerState": "California:OwnerState",
                 "ownerZipCode": "90045:OwnerZip",
-                "recipientAddress": "8123 McConnell:RecipientAddress",
-                "recipientState": "California:Recipient",
-                "recipientZipCode": "90045:recipient"
+                "recipientAddress": "8123 McConnell",
+                "recipientCity": "Santa Monica",
+                "recipientState": "California",
+                "recipientZipCode": "90045"
             },
         "to_pdf": False
         })
@@ -111,21 +116,24 @@ def submit():
         "data": {
                 "ownerName": ownerName,
                 "recipientName": recipientName,
+                "isEffectiveDateSpecific": True,
                 "contractDated": "1/1/2019",
                 "contractEndWithinDays": 7,
                 "isDisclosurePerpetual": False,
-                "lawState": "California:lawState",
+                "lawState": "California",
                 "isOwnerCompany": False,
                 "isRecipientCompany": True,
-                "recipientRepresentantName": "Jonathan:Recipient",
-                "recipientRepresentantTitle": "Boss:recipient",
+                "recipientRepresentantName": "Jonathan",
+                "recipientRepresentantTitle": "Boss",
                 "ownerRole": "Client",
-                "ownerAddress": "8123 McConnell:OwnerAddress",
+                "ownerAddress": "8123 McConnell",
+                "ownerCity": "Westchester",
                 "ownerState": "California:OwnerState",
                 "ownerZipCode": "90045:OwnerZip",
-                "recipientAddress": "8123 McConnell:RecipientAddress",
-                "recipientState": "California:Recipient",
-                "recipientZipCode": "90045:recipient"
+                "recipientAddress": "8123 McConnell",
+                "recipientCity": "Santa Monica",
+                "recipientState": "California",
+                "recipientZipCode": "90045"
             },
         "to_pdf": True
         })
