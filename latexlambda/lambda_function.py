@@ -8,9 +8,10 @@ import boto3
 import json
 import jinja2
 import sys
+from bs4 import BeautifulSoup
+from importlib import reload
 
-
-
+render_module = None
 
 def lambda_handler(event, context):
     # Put template into /tmp/template/template.tex
@@ -30,9 +31,6 @@ def lambda_handler(event, context):
         f.write(py_template)
     with open("/tmp/templates/__init__.py", "w+") as f:
         f.write("")
-
-    if 'data' not in event:
-        raise ValueError('A dict data must be passed to the parameters.')
 
     data = event['data']
     if not type(data) is dict:
@@ -56,7 +54,7 @@ def render(json_data):
         comment_end_string='}',
         line_statement_prefix='%[',
         line_comment_prefix='%#',
-        trim_blocks=False,
+        trim_blocks=True,
         autoescape=False,
         loader=jinja2.FileSystemLoader(os.path.join('/tmp', 'templates')))
     # retrieve the jinja template
@@ -107,19 +105,15 @@ def compiler(tex, to_pdf):
                         stderr=subprocess.STDOUT)
     res = {"stdout": r.stdout.decode('utf_8'),"tex": tex, 'path': os.environ['PATH']}
 
+    if to_pdf:
     # Read "document.pdf"...
-    try:
         with open("document.pdf", "rb") as html_file:
             res['pdf'] = base64.b64encode(html_file.read()).decode('ascii')
-    except:
-        pass
-
+    else:
     # Read "document.html"...
-    try:
         with open("document.html", "rb") as html_file:
-            res['html'] = base64.b64encode(html_file.read()).decode('ascii')
-    except:
-        pass
+            soup = BeautifulSoup(html_file.read(), 'html.parser')
+            res['html'] = base64.b64encode(soup.find('body')).decode('ascii')
 
     # Read "document.css"...
     try:
