@@ -37,7 +37,17 @@ def lambda_handler(event, context):
         raise ValueError('The entry in data is not a dict.')
 
     sys.path.insert(0, '/tmp/templates/')
-    json_data = __import__('template').render(data, event['to_pdf'])
+
+    # lambda keep an instance of the lambda if calls are made fast after each other.
+    # in that case we need to make sure that we have the python module for the according template
+    # and that it is the latest version
+    global render_module
+    if render_module is None:
+        render_module = __import__('template')
+    else:
+        reload(render_module)
+
+    json_data = render_module.render(data, event['to_pdf'])
 
     rendered_tex = render(json_data)
     return compiler(rendered_tex, event['to_pdf'])
