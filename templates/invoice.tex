@@ -1,0 +1,88 @@
+\documentclass[10pt]{article}
+\usepackage[english]{babel}
+
+\usepackage{mathptmx}
+\usepackage[table, rgb]{xcolor}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{lipsum}
+
+\setlength{\parskip}{1em}
+
+\newcommand{\VAR}[1]{{\color{blue}#1}}
+\newcommand{\BLOCK}[1]{{\smallskip \color{red}#1 \\ }}
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+
+\definecolor{slightlylightergray}{rgb}{0.93333,0.93,0.9137}
+
+\titlespacing\subsection{0pt}{0pt}{4pt}
+\setlength\parindent{0pt} % no indentation for all document
+
+
+\makeatletter
+\makeatother
+
+
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{document}
+
+\begin{minipage}{.2\textwidth}
+    \includegraphics[width=\linewidth]{logo.png}
+\end{minipage}
+\begin{minipage}{.3\textwidth}
+    \begin{tabular}{l}
+        Tina Smith \\ \\ 1635 16th St \\ Santa Monica, CA 90404
+    \end{tabular}
+\end{minipage} \hfill
+\begin{minipage}{.3\textwidth}
+    \hfill{\bf\Huge INVOICE}
+
+    \vspace{12pt}
+
+    \hfill\begin{tabular}{rr}
+        Inv\#: & 0000001\\
+        Issued: & Dec 12, 2018\\
+        Due: & Jan 12, 2019
+    \end{tabular}
+\end{minipage}
+{\color{gray} \hrule}
+
+\def\arraystretch{1.5} % For vertical spacing in table
+
+Bill to:\\
+\begin{tabular}{l}
+\textbf{Andre McGuire} \\
+\textbf{1635 16th St }\\
+\textbf{Santa Monica, CA 90404}
+\end{tabular}
+
+\hspace{-5pt}\begin{tabular}{llp{.4\linewidth}lrr}
+   \rowcolor{slightlylightergray}  Date & Item Name & Description & Units/hrs & Rate & Subtotal \\
+    12/5/2019 & Logo & Logo variants    & 02 units & 80.00 & 160.00\\
+    12/5/2019 & Squad core team & Meeting with Alex, Dima, Andrei, and Maxim & 01:21 hrs & 75.00 & 101.35 \\
+    12/5/2019 & Another thing I did & The thdfhsfhskfjhing described on the left & 02:36 hrs & 75.00 & 195.00
+\end{tabular}
+\vspace{20pt}
+\hrule
+
+\hfill \begin{tabular}{llr}
+    \textbf{Subtotal} && \textbf{\$456.35}\\
+    Taxes   & 0.0\% \\
+    Discount && -\$0.00 \\
+    \hline\\
+    \textbf{Total due} && {\color{red} \$456.35}
+\end{tabular}
+
+\subsection*{\color{lightgray} Late Fees}
+If this invoice is unpaid by Mar 27, 2019, a non-compounding late fee of 2\% accrues monthly on the outstanding amount.
+
+\subsection*{\color{lightgray} Notes}
+Please remit payment to: Tina Smith
+
+
+\end{document}

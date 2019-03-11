@@ -6,11 +6,16 @@ import ast
 
 def test_template(name,data, to_pdf):
 
+    print(f"testing for template: {name}")
     payload = json.dumps({
         "name": name,
         "data": data,
         "to_pdf": to_pdf
         })
+
+    print(payload)
+
+
 
 
     client = boto3.client('lambda')
@@ -28,9 +33,11 @@ def test_template(name,data, to_pdf):
     print([key for key in res])
 
     if 'errorMessage' in res:
-        print("############# ERROR MESSAGE ###############\n\n")
+        print("\n############# ERROR MESSAGE ###############\n")
         print(res['errorMessage'])
-        print(res['stackTrace'])
+        print("\n############# STACK TRACE   ###############\n")
+        for trace in res['stackTrace']:
+            print(": ".join([str(t) for t in trace]))
 
     else:
         print("############# write output ###############")
@@ -61,23 +68,38 @@ def test_template(name,data, to_pdf):
             pass
 
 
+if input("Test nda y/N") == 'y':
+    test_template("nda",{
+                    "ownerName": "Yannick",
+                    "recipientName": "tispr",
+                    "isEffectiveDateSpecific": True,
+                    "contractDated": "1/1/2019",
+                    "contractEndWithinDays": 7,
+                    "isDisclosurePerpetual": False,
+                    "lawState": "California",
+                    "isOwnerCompany": False,
+                    "isRecipientCompany": True,
+                    "recipientRepresentantName": "Jonathan",
+                    "recipientRepresentantTitle": "Boss",
+                    "ownerRole": "Client",
+                    "ownerAddress": "8123 McConnell",
+                    "ownerCity": "Westchester",
+                    "ownerState": "California:OwnerState",
+                    "ownerZipCode": "90045:OwnerZip",
+                    "recipientAddress": "8123 McConnell",
+                    "recipientCity": "Santa Monica",
+                    "recipientState": "California",
+                    "recipientZipCode": "90045"
+                },False)
 
-test_template("nda",{
-                "ownerName": "Yannick:Owner",
-                "recipientName": "tispr:Recipient",
-                "contractDated": "1/1/2019",
-                "contractEndWithinDays": 7,
-                "isDisclosurePerpetual": False,
-                "lawState": "California:lawState",
-                "isOwnerCompany": False,
-                "isRecipientCompany": True,
-                "recipientRepresentantName": "Jonathan:Recipient",
-                "recipientRepresentantTitle": "Boss:recipient",
-                "ownerRole": "Client",
-                "ownerAddress": "8123 McConnell:OwnerAddress",
-                "ownerState": "California:OwnerState",
-                "ownerZipCode": "90045:OwnerZip",
-                "recipientAddress": "8123 McConnell:RecipientAddress",
-                "recipientState": "California:Recipient",
-                "recipientZipCode": "90045:recipient"
-            },True)
+if input("Test invoice y/N") == 'y':
+    test_template("invoice",{
+                    "ownerName": "Yannick",
+                    "recipientName": "tispr",
+                    "ownerAddress": "8123 McConnell",
+                    "ownerState": "California",
+                    "ownerZipCode": "90045",
+                    "recipientAddress": "8123 McConnell",
+                    "recipientState": "California",
+                    "recipientZipCode": "90045"
+                },True)

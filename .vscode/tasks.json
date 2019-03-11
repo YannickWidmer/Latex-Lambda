@@ -48,7 +48,8 @@
             },
             "group": "test",
             "presentation": {
-                "reveal": "always"
+                "reveal": "always",
+                "focus": true
             },
             "problemMatcher": []
         }
