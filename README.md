@@ -56,7 +56,7 @@ Finally in case an error occures res contains `errorMessage`, `errorType`,and `s
 
 # Structure of this repository
 
-Every thing to create the lambda function is in `latexlambda/`. The templates and their corresponding python classes are stored in s3, however we develop them `templates/` from where we upload them to s3. Scripts helping development and testing are in `scripts/`,  when testing files are written into `test_output/`. To test from a browser a sample flask application is in `server/`.
+Every thing to create the lambda function is in `latexlambda/`. The templates and their corresponding python classes are stored in s3, however we develop them `templates/` from where we upload them to s3. The file `templates/README.md` describes the expected fields for each template. Scripts helping development and testing are in `scripts/`,  when testing files are written into `test_output/`. To test from a browser a sample flask application is in `server/`.
 
 # How the Lambda works
 
