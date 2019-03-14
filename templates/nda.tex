@@ -2,9 +2,10 @@
 \usepackage[english]{babel}
 
 \usepackage{mathptmx}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{enumerate}
 \usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage[margin=1in]{geometry}
 \setlength{\parskip}{1em}
 
@@ -63,9 +64,7 @@
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{document}
 \begin{center}
-{\scshape\Large \par}
-\vspace{1cm}
-{\huge\bfseries CONFIDENTIALITY AGREEMENT \par}
+\begin{huge} CONFIDENTIALITY AGREEMENT \end{huge}
 \vspace{1cm}
 \end{center}
 
@@ -172,8 +171,6 @@ Not withstanding such expiration or termination, the obligations of the Recipien
 [Remainder of Page Intentionally Left Blank]
 \end{center}
 \newpage
-\BLOCK{else}
-\vspace{4cm}
 \BLOCK{endif}
 
 IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement as of the Effective Date.
@@ -181,29 +178,39 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \renewcommand{\arraystretch}{2}
 \setlength\parindent{0pt}
 
-\begin{tabular}{p{.5\linewidth}p{.5\linewidth}}
-    Signed for and on behalf of \VAR{ownerName}
-    & Signed for and on behalf of \VAR{recipientName}
-\end{tabular}
-
-\vspace{1cm}
+\vspace{2cm}
 
 \begin{tabular}{p{.05\linewidth}p{.35\linewidth}p{.05\linewidth}p{.05\linewidth}p{.35\linewidth}}
+    \multicolumn{2}{l}{Signed for and on behalf of \VAR{ownerName} }
+    & & \multicolumn{2}{l}{Signed for and on behalf of \VAR{recipientName}}
+\\
+\vspace{1cm}
+\\
     % owner side
     By & \hrulefill
     & % recipient side
     &By & \hrulefill \\
     % owner side
     &\BLOCK{if isOwnerCompany}
-         \VAR{ownerRepresentantName}, \VAR{ownerRepresentantTitle}
+    \BLOCK{ if ownerRepresentantName is defined and ownerRepresentantTitle is defined}
+        \VAR{ownerRepresentantName },
+        \VAR{ownerRepresentantTitle }
+        \BLOCK{ else }
+        \hrulefill
+        \BLOCK{ endif }
     \BLOCK{else}
          \VAR{ownerName}
     \BLOCK{endif}
     & % recipient side
-    &&\BLOCK{if isRecipientCompany}
-        \VAR{recipientRepresentantName}, \VAR{recipientRepresentantTitle}
-    \BLOCK{else}
-      \VAR{recipientName}
+    &&\BLOCK{ if isRecipientCompany }
+        \BLOCK{ if recipientRepresentantName is defined and recipientRepresentantTitle is defined}
+        \VAR{recipientRepresentantName },
+        \VAR{recipientRepresentantTitle }
+        \BLOCK{ else }
+        \hrulefill
+        \BLOCK{ endif }
+    \BLOCK{ else }
+      \VAR{ recipientName }
     \BLOCK{endif}\\
     % owner side
     Date & \hrulefill
