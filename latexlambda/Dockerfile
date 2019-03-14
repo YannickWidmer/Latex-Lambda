@@ -27,21 +27,19 @@ ENV PATH=/var/task/texlive/2017/bin/x86_64-linux/:$PATH
 RUN tlmgr update --self
 RUN tlmgr install xcolor \
                   tcolorbox \
-                  pgf \
                   trimspaces \
                   etoolbox \
                   booktabs \
                   lastpage \
+                  titlesec \
                   tabu \
                   varwidth \
                   makecell \
                   enumitem \
                   setspace \
                   catoptions \
-                  ltxkeys \
                   framed \
                   parskip \
-                  endnotes \
                   footmisc \
                   zapfding \
                   symbol \
