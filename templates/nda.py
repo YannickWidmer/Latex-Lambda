@@ -10,7 +10,7 @@ html_parameters = { # Parameters that can be set with their standard value
     'isRecipientCompany': False,
     'isEffectiveDateSpecific' : False
 }
-html_values = ['ownerName', 'recipientName', 'contractDated', 'contractEndWithinDays', 'lawState', 'ownerAddress', 'ownerCity', 'ownerState', 'ownerZipCode', 'recipientAddress', 'ownerCity','recipientState', 'recipientZipCode', 'ownerRepresentantName', 'ownerRepresentantTitle', 'recipientRepresentantName', 'recipientRepresentantTitle', 'disclosureExpireInYears']
+html_values = ['ownerName', 'recipientName', 'contractDated', 'contractEndWithinDays', 'lawState', 'ownerAddress', 'ownerCity', 'ownerState', 'ownerZipCode', 'recipientAddress', 'recipientCity','recipientState', 'recipientZipCode', 'ownerRepresentantName', 'ownerRepresentantTitle', 'recipientRepresentantName', 'recipientRepresentantTitle', 'disclosureExpireInYears']
 
 
 def render(data, to_pdf):
