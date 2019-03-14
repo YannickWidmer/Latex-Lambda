@@ -7,24 +7,46 @@ import zipfile
 import boto3
 import json
 import jinja2
+import requests
+import traceback
 import sys
+
 from bs4 import BeautifulSoup
 from importlib import reload
 
 render_module = None
 
 def lambda_handler(event, context):
-    # Put template into /tmp/template/template.tex
+
+    # retrieve parameters
+    name = event['name']
+    to_pdf = event['to_pdf']
+    data = event['data']
+    images = event.get('images',{})
+
+    # prepare  /tmp/templates
     shutil.rmtree("/tmp/templates", ignore_errors=True)
     os.mkdir("/tmp/templates")
 
-    name = event['name']
+    # Prepare /tmp/latex
+    shutil.rmtree("/tmp/latex", ignore_errors=True)
+    os.mkdir("/tmp/latex")
+    os.mkdir("/tmp/latex/pics")
+
+    # Prepare /tmp/texmf
+    # os.makedirs("/tmp/texmf", exist_ok=True)
+
     # connect to s3
     s3 = boto3.resource('s3')
 
+    # Prepare config file for htlatex: If we create an html file we need to load the cfg file
+    if not to_pdf:
+        with open("/tmp/latex/config.cfg", "w+") as f:
+            f.write(s3.Object('ds-temp-stg',f"latex_template_test/config.cfg").get()['Body'].read().decode('utf-8'))
+
+    # download template.tex and template.py to /tmp/templates
     tex_template =  s3.Object('ds-temp-stg',f"latex_template_test/{name}.tex").get()['Body'].read().decode('utf-8')
     py_template =  s3.Object('ds-temp-stg',f"latex_template_test/{name}.py").get()['Body'].read().decode('utf-8')
-
     with open("/tmp/templates/template.tex", "w+") as f:
         f.write(tex_template)
     with open("/tmp/templates/template.py", "w+") as f:
@@ -32,25 +54,49 @@ def lambda_handler(event, context):
     with open("/tmp/templates/__init__.py", "w+") as f:
         f.write("")
 
-    data = event['data']
-    if not type(data) is dict:
-        raise ValueError('The entry in data is not a dict.')
-
-    sys.path.insert(0, '/tmp/templates/')
-
-    # lambda keep an instance of the lambda if calls are made fast after each other.
-    # in that case we need to make sure that we have the python module for the according template
-    # and that it is the latest version
+    # Loading the template.py so we can use it to perform the data transformation.
+    # To do so we need to add /tmp/templates to the PATH and then load the module.
+    # However lambda keeps an instance of the lambda if calls are made fast after each other.
+    # In that case we need to make sure that we have the python module for the according template
+    # and that it is the latest version, if we would simply import the class and it had done it in a
+    # previous run it would ignore the import assuming it has the right module. Like this changes
+    # to the file would be ignored (only problematic during development I guess) then if it was another
+    # template it would load the module for the other class instead of this one.
     global render_module
+    sys.path.insert(0, '/tmp/templates/')
     if render_module is None:
         render_module = __import__('template')
     else:
         reload(render_module)
 
-    json_data = render_module.render(data, event['to_pdf'])
+    try:
+        # prepare images
+        data = prepare_images(data,images,to_pdf)
+        data = render_module.render(data, to_pdf)
+        rendered_tex = render(data)
+        res =  compiler(rendered_tex, to_pdf)
+        res['data'] = data
+        return res
+    except Exception as e:
+        return {"stackTrace": traceback.format_exc(), "errorMessage": repr(e)}
 
-    rendered_tex = render(json_data)
-    return compiler(rendered_tex, event['to_pdf'])
+
+def prepare_images(json_data, images, to_pdf):
+    """
+    This function either downloads the images into the temporary folder to create a pdf
+    or else sets the coresponding variable to the public url
+    """
+    if to_pdf:
+        for image in images:
+            r = requests.get(images[image], stream=True)
+            with open(f"/tmp/latex/pics/{image}","wb+") as f:
+                r.raw.decode_content = True
+                shutil.copyfileobj(r.raw, f)
+    else:
+        for image in images:
+            json_data[image.split('.')[0]] = images[image]
+
+    return json_data
 
 
 def render(json_data):
@@ -74,10 +120,6 @@ def render(json_data):
 
 
 def compiler(tex, to_pdf):
-
-    # Extract input ZIP file to /tmp/latex...
-    shutil.rmtree("/tmp/latex", ignore_errors=True)
-    os.mkdir("/tmp/latex")
 
     with open("/tmp/latex/document.tex", "w+") as f:
         f.write(tex)
@@ -110,21 +152,27 @@ def compiler(tex, to_pdf):
     else:
         r = subprocess.run(["htlatex",
                             "document.tex",
-                            '"html,css-in"'],
+                            '"config,css-in"'],
                         stdout=subprocess.PIPE,
                         stderr=subprocess.STDOUT)
-    res = {"stdout": r.stdout.decode('utf_8'),"tex": tex, 'path': os.environ['PATH']}
+    res = {"stdout": r.stdout.decode('utf_8'),"tex": tex}
 
     if to_pdf:
-    # Read "document.pdf"...
-        with open("document.pdf", "rb") as html_file:
-            res['pdf'] = base64.b64encode(html_file.read()).decode('ascii')
+        try:
+            # Read "document.pdf"...
+            with open("document.pdf", "rb") as pdf_file:
+                res['pdf'] = base64.b64encode(pdf_file.read()).decode('ascii')
+        except FileNotFoundError:
+            pass
+
     else:
     # Read "document.html"...
-        with open("document.html", "rb") as html_file:
-            soup = BeautifulSoup(html_file.read(), 'html.parser')
-            res['html'] = str(soup.find('body'))
-
+        try:
+            with open("document.html", "rb") as html_file:
+                soup = BeautifulSoup(html_file.read(), 'html.parser')
+                res['html'] = str(soup.find('body'))
+        except FileNotFoundError:
+            pass
     # Read "document.css"...
     try:
         with open("document.css", "rb") as css_file:
