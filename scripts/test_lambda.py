@@ -4,19 +4,21 @@ import boto3
 import os
 import ast
 
-def test_template(name,data, to_pdf):
+def test_template(name,data, to_pdf, images = {}):
 
-    print(f"testing for template: {name}")
+    print("##########################################################")
+    print("##########################################################")
+    print(f"############# testing for template: {name} ##############")
+    print("##########################################################")
+    print("##########################################################")
     payload = json.dumps({
         "name": name,
         "data": data,
-        "to_pdf": to_pdf
+        "to_pdf": to_pdf,
+        "images" : images
         })
 
     print(payload)
-
-
-
 
     client = boto3.client('lambda')
 
@@ -26,60 +28,51 @@ def test_template(name,data, to_pdf):
         Payload=payload,
     )
 
-    res = ast.literal_eval(response['Payload'].read().decode())
+    res = json.loads(response['Payload'].read().decode())
 
     print("############# RES ###############")
 
     print([key for key in res])
 
-    if 'errorMessage' in res:
-        print("\n############# ERROR MESSAGE ###############\n")
-        print(res['errorMessage'])
-        print("\n############# STACK TRACE   ###############\n")
-        for trace in res['stackTrace']:
-            print(": ".join([str(t) for t in trace]))
+    out_dir = './test_output/'
 
-    else:
-        print("############# write output ###############")
-        print(res['path'])
-        out_dir = './test_output/'
-        if to_pdf:
-            with open(os.path.join(out_dir, 'document.pdf'), 'wb+') as outfile:
-                outfile.write(base64.b64decode(res['pdf']))
-        else:
-            try:
-                with open(os.path.join(out_dir, 'document.html'), 'wb+') as outfile:
-                    outfile.write(base64.b64decode(res['html']))
-                with open(os.path.join(out_dir, 'document.css'), 'wb+') as outfile:
-                    outfile.write(base64.b64decode(res['css']))
-            except:
-                print(res['stdout'])
+    for ending in ['pdf','css','log']:
+        if ending in res:
+            print(f"############# write document.{ending} ###############")
+            with open(os.path.join(out_dir, f'document.{ending}'), 'wb+') as outfile:
+                outfile.write(base64.b64decode(res[ending]))
 
-        try:
-            with open(os.path.join(out_dir, 'document.log'), 'wb+') as outfile:
-                outfile.write(base64.b64decode(res['log']))
+    for ending in ['html','tex']:
+        if ending in res:
+            print(f"############# write document.{ending} ###############")
+            with open(os.path.join(out_dir, f'document.{ending}'), 'w+') as outfile:
+                outfile.write(res[ending])
 
-            with open(os.path.join(out_dir, 'document.tex'), 'w+') as outfile:
-                outfile.write(res['tex'])
+    for out in ['stdout','stderr']:
+        if out in res:
+            print(f"############# write {out} to {out}.txt ###############")
+            with open(os.path.join(out_dir, f'{out}.txt'), 'w+') as outfile:
+                outfile.write(res[out])
 
-            with open(os.path.join(out_dir, 'log.txt'), 'w+') as outfile:
-                outfile.write(res['stdout'])
-        except:
-            pass
+
+    for tx in ['errorMessage','stackTrace','data','images']:
+        if tx in res:
+            print(f"\n############# PRINT {tx} ###############\n")
+            print(res[tx])
 
 
 if input("Test nda y/N") == 'y':
     test_template("nda",{
-                    "ownerName": "Yannick",
-                    "recipientName": "tispr",
                     "isEffectiveDateSpecific": True,
-                    "contractDated": "1/1/2019",
-                    "contractEndWithinDays": 7,
                     "isDisclosurePerpetual": False,
-                    "lawState": "California",
                     "isOwnerCompany": False,
                     "isRecipientCompany": True,
-                    "recipientRepresentantName": "Jonathan",
+                    "ownerName": "Yannick",
+                    "recipientName": "tispr",
+                    "contractDated": "1/1/2019",
+                    "contractEndWithinDays": 7,
+                    "lawState": "California",
+                    #"recipientRepresentantName": "Jonathan",
                     "recipientRepresentantTitle": "Boss",
                     "ownerRole": "Client",
                     "ownerAddress": "8123 McConnell",
@@ -90,7 +83,8 @@ if input("Test nda y/N") == 'y':
                     "recipientCity": "Santa Monica",
                     "recipientState": "California",
                     "recipientZipCode": "90045"
-                },False)
+                },True)
+    test_template("nda",{},False)
 
 if input("Test invoice y/N") == 'y':
     test_template("invoice",{
@@ -102,4 +96,12 @@ if input("Test invoice y/N") == 'y':
                     "recipientAddress": "8123 McConnell",
                     "recipientState": "California",
                     "recipientZipCode": "90045"
-                },True)
+    },True,
+    images = {
+        "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+        })
+    test_template("invoice",{},False,
+    images = {
+        "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+        })
+

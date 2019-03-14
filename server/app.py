@@ -20,7 +20,7 @@ app.config.update(dict(
 app.config.from_envvar('LATEXLAMBDA_SETTINGS', silent=True)
 
 
-def get_html(data):
+def get_html(data, container_name):
     payload = json.dumps(data)
     client = boto3.client('lambda')
 
@@ -28,10 +28,11 @@ def get_html(data):
         FunctionName="latex_compiler",
         InvocationType='RequestResponse',
         Payload=payload,)
-    res = ast.literal_eval(response['Payload'].read().decode())
+
+    res = json.loads(response['Payload'].read().decode())
     if 'html' not in res:
         raise ValueError(res)
-    return render_template('edit_pane.html',content=res['html'])
+    return render_template(container_name,content=res['html'])
 
 def get_pdf(data):
     payload = json.dumps(data)
@@ -40,7 +41,7 @@ def get_pdf(data):
         FunctionName="latex_compiler",
         InvocationType='RequestResponse',
         Payload=payload,)
-    res = ast.literal_eval(response['Payload'].read().decode())
+    res = json.loads(response['Payload'].read().decode())
     if 'pdf' not in res:
         raise ValueError(res)
     outdir = os.path.join(os.getcwd(),'/tmp')
@@ -75,7 +76,7 @@ def main_page():
         "recipientZipCode": "90045"
     },
     "to_pdf": False
-    })
+    },'edit_nda.html')
 
 @app.route('/submit', methods=['POST','GET'])
 def submit():
@@ -108,7 +109,7 @@ def submit():
                 "recipientZipCode": "90045"
             },
         "to_pdf": False
-        })
+        },'edit_nda.html')
         return res
     else:
         return get_pdf({
@@ -137,6 +138,19 @@ def submit():
             },
         "to_pdf": True
         })
+
+
+@app.route('/invoice')
+def invoice_page():
+    return get_html( {
+    "name": "invoice",
+    "data": {
+        "ownerName": "Yannick"
+    },
+    "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"},
+    "to_pdf": False
+    },'edit_invoice.html')
+
 
 if __name__ == '__main__':
     app.debug = True

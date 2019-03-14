@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<!-- xhtml,css-in,html -->
+<meta name="src" content="document.tex" />
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='invoice_style.css') }}">
+</head>
+<body>
+<div id="wrapper">
+    <div id="sidebarleft">
+        <form action="{{ url_for('submit') }}" method=post id=form1>
+                Owner Name <br/>
+                <input type="text" name=name><br/>
+                Recipient Name <br/>
+                <input type="text" name=familyName><br/>
+                Something else <br/>
+                <input type="text"><br/>
+        </form>
+        <button type="submit" form="form1" name="action" value="Submit">Submit</button>
+        <button type="submit" form="form1" name="action" value="Download">Download</button>
+    </div>
+    <div id="container">
+      {{ content|safe }}
+    </div>
+</div>
+</body>
+</html>

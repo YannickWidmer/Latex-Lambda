@@ -19,7 +19,7 @@
         {
             "label": "upload templates",
             "type": "shell",
-            "command": "aws s3 cp ${workspaceRoot}/templates s3://ds-temp-stg/latex_template_test --recursive --exclude \"*\" --include \"*.tex\" --include \"*.py\"",
+            "command": "aws s3 cp ${workspaceRoot}/templates s3://ds-temp-stg/latex_template_test --recursive --exclude \"*\" --include \"*.tex\" --include \"*.py\" --include \"*.cfg\"",
             "group": "build",
             "presentation": {
                 "reveal": "always"

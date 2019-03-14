@@ -7,15 +7,32 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage{titlesec}
-\usepackage{lipsum}
-
+\usepackage{booktabs}
 \setlength{\parskip}{1em}
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%  The following command only exist for development %%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%  In production, JinJa will have gotten rid of     %%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%  the VAR and BLOCK commands.                      %%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\VAR}[1]{{\color{blue}#1}}
-\newcommand{\BLOCK}[1]{{\smallskip \color{red}#1 \\ }}
-\usepackage[scaled]{helvet}
-\renewcommand\familydefault{\sfdefault}
+\newcommand{\BLOCK}[1]{~\newline{ \color{red}#1 }}
+% For stuff that only appears in html version and should be verbatim
+% This works because HCode is defined for htlatex but not for pdflatex,
+% hence providecommand overrides the command for pdflatex but for htlatex it is
+% the normal HCode command, which writes html code verbatim
+\providecommand{\HCode}[1]{}
+% to group elements into a div in html
+\newenvironment{htmldiv}{}{}
+
+%[ if toPdf
 \usepackage[T1]{fontenc}
+\usepackage[scaled]{helvet}
+%[ endif
+\renewcommand*\familydefault{\sfdefault}
+
+\graphicspath{{./pics/}}
 
 \definecolor{slightlylightergray}{rgb}{0.93333,0.93,0.9137}
 
@@ -31,26 +48,30 @@
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{document}
 
-\begin{minipage}{.2\textwidth}
-    \includegraphics[width=\linewidth]{logo.png}
-\end{minipage}
-\begin{minipage}{.3\textwidth}
-    \begin{tabular}{l}
-        Tina Smith \\ \\ 1635 16th St \\ Santa Monica, CA 90404
-    \end{tabular}
-\end{minipage} \hfill
-\begin{minipage}{.3\textwidth}
-    \hfill{\bf\Huge INVOICE}
+\begin{htmldiv}
+    \begin{minipage}{.2\textwidth}
+        \BLOCK{if toPdf}
+        \includegraphics[width=\linewidth]{logo.png}
+        \BLOCK{ else }
+        \HCode{<img alt="PIC" src="\VAR{logo}" style="width: 120px;"/>}
+        \BLOCK{ endif }
+    \end{minipage}
+    \begin{minipage}{.3\textwidth}
+        \begin{tabular}{l}
+            Tina Smith \\ \\ 1635 16th St \\ Santa Monica, CA 90404
+        \end{tabular}
+    \end{minipage} \hfill
+    \begin{minipage}{.3\textwidth}
+    \hfill \begin{Huge}\textbf{INVOICE} \end{Huge}
 
-    \vspace{12pt}
-
-    \hfill\begin{tabular}{rr}
-        Inv\#: & 0000001\\
-        Issued: & Dec 12, 2018\\
-        Due: & Jan 12, 2019
-    \end{tabular}
-\end{minipage}
-{\color{gray} \hrule}
+        \vspace{12pt}
+        \hfill\begin{tabular}{rr}
+            Inv\#: & 0000001\\
+            Issued: & Dec 12, 2018\\
+            Due: & Jan 12, 2019
+        \end{tabular}
+    \end{minipage}
+\end{htmldiv}
 
 \def\arraystretch{1.5} % For vertical spacing in table
 
@@ -65,24 +86,29 @@ Bill to:\\
    \rowcolor{slightlylightergray}  Date & Item Name & Description & Units/hrs & Rate & Subtotal \\
     12/5/2019 & Logo & Logo variants    & 02 units & 80.00 & 160.00\\
     12/5/2019 & Squad core team & Meeting with Alex, Dima, Andrei, and Maxim & 01:21 hrs & 75.00 & 101.35 \\
-    12/5/2019 & Another thing I did & The thdfhsfhskfjhing described on the left & 02:36 hrs & 75.00 & 195.00
+    12/5/2019 & Another thing I did & The thdfhsfhskfjhing described on the left & 02:36 hrs & 75.00 & 195.00\\
+    \addlinespace
+    \cline{1-6}
+    \addlinespace
+   &&& \textbf{Subtotal} && \textbf{\$456.35}\\
+   &&& Taxes   & 0.0\% \\
+   &&& Discount && -\$0.00 \\
+   \cline{4-6} \\
+   &&& \textbf{Total due} && {\color{red} \$456.35}
+   \\
+   \cline{4-6}
 \end{tabular}
-\vspace{20pt}
-\hrule
 
-\hfill \begin{tabular}{llr}
-    \textbf{Subtotal} && \textbf{\$456.35}\\
-    Taxes   & 0.0\% \\
-    Discount && -\$0.00 \\
-    \hline\\
-    \textbf{Total due} && {\color{red} \$456.35}
-\end{tabular}
+\vspace{1cm}
+{\color{gray} \hrule}
 
 \subsection*{\color{lightgray} Late Fees}
 If this invoice is unpaid by Mar 27, 2019, a non-compounding late fee of 2\% accrues monthly on the outstanding amount.
 
+\vspace{1cm}
 \subsection*{\color{lightgray} Notes}
 Please remit payment to: Tina Smith
+
 
 
 \end{document}

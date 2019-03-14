@@ -1,14 +1,30 @@
 
 /* start css.sty */
+html *
+{
+  font-weight: 200;
+}
 .ptmr7t-x-x-120{font-family: monospace; font-weight: bold;}
 .ptmb7t-x-x-248{font-size:206%; font-weight: bold; padding-bottom: 12pt;}
-p.noindent { text-indent: 0em }
-p.indent{ text-indent: 1.5em }
+p.noindent { text-indent: 0em; display: inline-block}
+p.indent{ text-indent: 1.5em; display: inline-block }
+div.center{ text-align:center;  margin-left:auto;  margin-right:auto;}
 .enumerate1 {list-style-type:decimal;}
 .enumerate2 {list-style-type:lower-alpha;}
 .enumerate3 {list-style-type:lower-roman;}
 .enumerate4 {list-style-type:upper-alpha;}
 h3.sectionHead{font-size: 1.5em; padding-bottom: 0.5em; padding-top: 1em;}
+.titlemark{padding-right: 18px;}
+dt {
+  float: left;
+}
+dd {
+  margin-left: 0px;
+  margin-bottom: 20px;
+  margin-inline-start: 25px;
+}
+td{ min-width: 15px;}
+
 
 #container {
     margin: 0 auto;
