@@ -21,6 +21,7 @@ app.config.from_envvar('LATEXLAMBDA_SETTINGS', silent=True)
 
 
 def get_html(data, container_name):
+    data['to_pdf'] = False
     payload = json.dumps(data)
     client = boto3.client('lambda')
 
@@ -35,6 +36,7 @@ def get_html(data, container_name):
     return render_template(container_name,content=res['html'])
 
 def get_pdf(data):
+    data['to_pdf'] = True
     payload = json.dumps(data)
     client = boto3.client('lambda')
     response = client.invoke(
@@ -53,29 +55,7 @@ def get_pdf(data):
 def main_page():
     return get_html( {
     "name": "nda",
-    "data": {
-        "ownerName": "Yannick",
-        "recipientName": "tispr",
-        "isEffectiveDateSpecific": True,
-        "contractDated": "1/1/2019",
-        "contractEndWithinDays": 7,
-        "isDisclosurePerpetual": False,
-        "lawState": "California",
-        "isOwnerCompany": False,
-        "isRecipientCompany": True,
-        "recipientRepresentantName": "Jonathan",
-        "recipientRepresentantTitle": "Boss",
-        "ownerRole": "Client",
-        "ownerAddress": "8123 McConnell",
-        "ownerCity": "Westchester",
-        "ownerState": "California:OwnerState",
-        "ownerZipCode": "90045:OwnerZip",
-        "recipientAddress": "8123 McConnell",
-        "recipientCity": "Santa Monica",
-        "recipientState": "California",
-        "recipientZipCode": "90045"
-    },
-    "to_pdf": False
+    "data": { }
     },'edit_nda.html')
 
 @app.route('/submit', methods=['POST','GET'])
@@ -84,34 +64,15 @@ def submit():
     recipientName = request.form['familyName']
 
     if request.form['action'] == 'Submit':
-        res = get_html({
+        return get_html({
         "name": "nda",
         "data": {
                 "ownerName": ownerName,
-                "recipientName": recipientName,
-                "isEffectiveDateSpecific": True,
-                "contractDated": "1/1/2019",
-                "contractEndWithinDays": 7,
-                "isDisclosurePerpetual": False,
-                "lawState": "California",
-                "isOwnerCompany": False,
-                "isRecipientCompany": True,
-                "recipientRepresentantName": "Jonathan",
-                "recipientRepresentantTitle": "Boss",
-                "ownerRole": "Client",
-                "ownerAddress": "8123 McConnell",
-                "ownerCity": "Westchester",
-                "ownerState": "California:OwnerState",
-                "ownerZipCode": "90045:OwnerZip",
-                "recipientAddress": "8123 McConnell",
-                "recipientCity": "Santa Monica",
-                "recipientState": "California",
-                "recipientZipCode": "90045"
-            },
-        "to_pdf": False
+                "recipientName": recipientName
+            }
         },'edit_nda.html')
-        return res
-    else:
+
+    elif request.form['action'] == 'Download_contract':
         return get_pdf({
         "name": "nda",
         "data": {
@@ -135,10 +96,25 @@ def submit():
                 "recipientCity": "Santa Monica",
                 "recipientState": "California",
                 "recipientZipCode": "90045"
-            },
-        "to_pdf": True
+                }
         })
+    elif request.form['action'] == 'Submit_invoice':
+        return get_html({
+        "name": "invoice",
+        "data": {
+                "ownerName": ownerName,
+                "recipientName": recipientName
+            }
+        },'edit_invoice.html')
 
+    elif request.form['action'] == 'Download_invoice':
+        return get_pdf({
+        "name": "invoice",
+        "data": {
+                "ownerName": ownerName,
+                "recipientName": recipientName
+            }
+        })
 
 @app.route('/invoice')
 def invoice_page():
