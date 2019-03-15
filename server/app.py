@@ -3,6 +3,7 @@ import json
 import boto3
 import os
 import ast
+from datetime import datetime
 
 #!flask/bin/python
 from flask import Flask, render_template, url_for, redirect, request, send_file
@@ -102,18 +103,70 @@ def submit():
         return get_html({
         "name": "invoice",
         "data": {
-                "ownerName": ownerName,
-                "recipientName": recipientName
-            }
+            "entries":[
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                }
+            ],
+        },
+        "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
         },'edit_invoice.html')
 
     elif request.form['action'] == 'Download_invoice':
         return get_pdf({
         "name": "invoice",
         "data": {
-                "ownerName": ownerName,
-                "recipientName": recipientName
-            }
+            "senderName": "Tina Smith",
+            "senderAddress": "8123 McConnell Ave",
+            "senderCity": "Los Angeles",
+            "senderStateInitials": "CA",
+            "senderZipCode": "90045",
+            "recipientName": "Andre McGuire",
+            "recipientAddress": "1635 16th St",
+            "recipientCity": "Santa Monica",
+            "recipientStateInitials": "CA",
+            "recipientZipCode": "90404",
+            "invoiceNumber": 1,
+            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "taxesPercent": 0,
+            "discountAmount": 0,
+            "totalAmount": 456.30,
+            "subtotal": 456.35,
+            "feePercentage":10.0,
+            "entries":[
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                }
+            ]
+        },
+        "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
         })
 
 @app.route('/invoice')
@@ -121,11 +174,46 @@ def invoice_page():
     return get_html( {
     "name": "invoice",
     "data": {
-        "ownerName": "Yannick"
+            "senderName": "Tina Smith",
+            "senderAddress": "8123 McConnell Ave",
+            "senderCity": "Los Angeles",
+            "senderStateInitials": "CA",
+            "senderZipCode": "90045",
+            "recipientName": "Andre McGuire",
+            "recipientAddress": "1635 16th St",
+            "recipientCity": "Santa Monica",
+            "recipientStateInitials": "CA",
+            "recipientZipCode": "90404",
+            "invoiceNumber": 1,
+            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "taxesPercent": 0,
+            "discountAmount": 0,
+            "totalAmount": 456.30,
+            "subtotal": 456.35,
+            "feePercentage":10.0,
+            "entries":[
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                }
+            ]
+        },
+        "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
     },
-    "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"},
-    "to_pdf": False
-    },'edit_invoice.html')
+    'edit_invoice.html')
 
 
 if __name__ == '__main__':
