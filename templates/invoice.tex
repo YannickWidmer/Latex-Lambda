@@ -16,8 +16,22 @@
 % %%%%%%%%%%%%%%%%  In production, JinJa will have gotten rid of     %%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%  the VAR and BLOCK commands.                      %%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\VAR}[1]{{\color{blue}#1}}
+\makeatletter
+\edef\history{ }
+\newcommand{\historyAdd}[1]{\edef\history{\history{}#1 }}
+\newcommand{\VAR}[1]{{\color{blue} #1}\g@addto@macro\history{#1}}
 \newcommand{\BLOCK}[1]{~\newline{ \color{red}#1 }}
+\makeatother
+
+
+\AtEndDocument{
+\BLOCK{ if toPdf and not toPdf }
+The variables used in this doc are:\\
+\history
+\BLOCK{ endif }
+}
+
+
 % For stuff that only appears in html version and should be verbatim
 % This works because HCode is defined for htlatex but not for pdflatex,
 % hence providecommand overrides the command for pdflatex but for htlatex it is
@@ -25,6 +39,7 @@
 \providecommand{\HCode}[1]{}
 % to group elements into a div in html
 \newenvironment{htmldiv}{}{}
+
 
 %[ if toPdf
 \usepackage[T1]{fontenc}
@@ -39,76 +54,70 @@
 \titlespacing\subsection{0pt}{0pt}{4pt}
 \setlength\parindent{0pt} % no indentation for all document
 
-
-\makeatletter
-\makeatother
-
-
-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{document}
+
 
 \begin{htmldiv}
     \begin{minipage}{.2\textwidth}
         \BLOCK{if toPdf}
         \includegraphics[width=\linewidth]{logo.png}
         \BLOCK{ else }
-        \HCode{<img alt="PIC" src="\VAR{logo}" style="width: 120px;"/>}
+        \HCode{<img alt="PIC" src="\VAR{logo}"/>}
         \BLOCK{ endif }
     \end{minipage}
     \begin{minipage}{.3\textwidth}
-        \begin{tabular}{l}
-            Tina Smith \\ \\ 1635 16th St \\ Santa Monica, CA 90404
+        \begin{tabular}{ll}
+            \VAR{ senderName }  \\ \VAR{ senderAddress } \\ \VAR{ senderCity }, \VAR{ senderStateInitials }, \VAR{ senderZipCode }
         \end{tabular}
     \end{minipage} \hfill
     \begin{minipage}{.3\textwidth}
-    \hfill \begin{Huge}\textbf{INVOICE} \end{Huge}
+    \textbf{\begin{Huge} INVOICE  \end{Huge}}
 
         \vspace{12pt}
-        \hfill\begin{tabular}{rr}
-            Inv\#: & 0000001\\
-            Issued: & Dec 12, 2018\\
-            Due: & Jan 12, 2019
+       \begin{tabular}{ll}
+            Inv\#: & \VAR{ invoiceNumber }\\
+            Issued: & \VAR{ issuedDate }\\
+            Due: & \VAR{ dueDate }
         \end{tabular}
     \end{minipage}
 \end{htmldiv}
 
-\def\arraystretch{1.5} % For vertical spacing in table
 
 Bill to:\\
 \begin{tabular}{l}
-\textbf{Andre McGuire} \\
-\textbf{1635 16th St }\\
-\textbf{Santa Monica, CA 90404}
+\textbf{\VAR{ recipientName }} \\
+\textbf{\VAR{ recipientAddress } }\\
+\textbf{\VAR{ recipientCity }, \VAR{ recipientStateInitials } \VAR{ recipientZipCode } }
 \end{tabular}
+
+\vspace{12px}
+\def\arraystretch{1.5} % For vertical spacing in table
 
 \hspace{-5pt}\begin{tabular}{llp{.4\linewidth}lrr}
-   \rowcolor{slightlylightergray}  Date & Item Name & Description & Units/hrs & Rate & Subtotal \\
-    12/5/2019 & Logo & Logo variants    & 02 units & 80.00 & 160.00\\
-    12/5/2019 & Squad core team & Meeting with Alex, Dima, Andrei, and Maxim & 01:21 hrs & 75.00 & 101.35 \\
-    12/5/2019 & Another thing I did & The thdfhsfhskfjhing described on the left & 02:36 hrs & 75.00 & 195.00\\
-    \addlinespace
+   \rowcolor{slightlylightergray}  Date & Item name & Description & Units/hrs & Rate & Subtotal \\
+    %[ for entry in entries
+    \VAR{ entry.date } & \VAR{ entry.title } & \VAR{ entry.description } & \VAR{ entry.units } & \VAR{ entry.rate } & \VAR{ entry.total }\\
+    %[ endfor
     \cline{1-6}
-    \addlinespace
-   &&& \textbf{Subtotal} && \textbf{\$456.35}\\
-   &&& Taxes   & 0.0\% \\
-   &&& Discount && -\$0.00 \\
-   \cline{4-6} \\
-   &&& \textbf{Total due} && {\color{red} \$456.35}
-   \\
-   \cline{4-6}
+    \addlinespace[12px]\\
+   &&& \textbf{Subtotal} && \textbf{\$\VAR{ subtotal }}\\
+   &&& Taxes   & \VAR{ taxesPercent }\%  & \VAR{ taxesAmount }\\
+   &&& Discount && -\$\VAR{ discountAmount } \\
+   \cline{4-6} \vspace{-12px}\\
+&&& \begin{large}\textbf{Total} \end{large} && \begin{large} \textbf{\$\VAR{ totalAmount }} \end{large}
 \end{tabular}
 
 \vspace{1cm}
-{\color{gray} \hrule}
+
 
 \subsection*{\color{lightgray} Late Fees}
-If this invoice is unpaid by Mar 27, 2019, a non-compounding late fee of 2\% accrues monthly on the outstanding amount.
+If this invoice is unpaid by \VAR{ dueDate }, a non-compounding late fee of \VAR{ feePercentage }\% accrues monthly on the outstanding amount.
 
+\BLOCK{ if notes is defined }
 \vspace{1cm}
 \subsection*{\color{lightgray} Notes}
-Please remit payment to: Tina Smith
-
-
+\VAR{ notes }
+\BLOCK{ endif }
 
 \end{document}
