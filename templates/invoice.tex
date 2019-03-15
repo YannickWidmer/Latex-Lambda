@@ -7,9 +7,12 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage{titlesec}
+\usepackage{array}
 \usepackage{booktabs}
 \setlength{\parskip}{1em}
 
+\newlength{\interwordspace}
+\settowidth{\interwordspace}{\ }
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%  The following command only exist for development %%%%%%%%%%%%
@@ -59,23 +62,22 @@ The variables used in this doc are:\\
 
 
 \begin{htmldiv}
-    \begin{minipage}{.2\textwidth}
+    \begin{minipage}{.15\textwidth}
         \BLOCK{if toPdf}
-        \includegraphics[width=\linewidth]{logo.png}
+        \includegraphics[width=\textwidth]{logo.png}
         \BLOCK{ else }
         \HCode{<img alt="PIC" src="\VAR{logo}"/>}
         \BLOCK{ endif }
     \end{minipage}
-    \begin{minipage}{.3\textwidth}
+    \begin{minipage}[t]{.3\textwidth}
         \begin{tabular}{ll}
             \VAR{ senderName }  \\ \VAR{ senderAddress } \\ \VAR{ senderCity }, \VAR{ senderStateInitials }, \VAR{ senderZipCode }
         \end{tabular}
-    \end{minipage} \hfill
+    \end{minipage}\hfill
     \begin{minipage}{.3\textwidth}
-    \textbf{\begin{Huge} INVOICE  \end{Huge}}
-
-        \vspace{12pt}
-       \begin{tabular}{ll}
+        \begin{tabular}{ll}
+            \multicolumn{2}{l}{\textbf{\begin{Huge}INVOICE  \end{Huge}}}\\
+            \addlinespace[0px]\\
             Inv\#: & \VAR{ invoiceNumber }\\
             Issued: & \VAR{ issuedDate }\\
             Due: & \VAR{ dueDate }
@@ -85,16 +87,16 @@ The variables used in this doc are:\\
 
 
 Bill to:\\
-\begin{tabular}{l}
-\textbf{\VAR{ recipientName }} \\
-\textbf{\VAR{ recipientAddress } }\\
-\textbf{\VAR{ recipientCity }, \VAR{ recipientStateInitials } \VAR{ recipientZipCode } }
+\begin{tabular}{@{}l}
+\textbf{\VAR{recipientName }} \\
+\textbf{\VAR{recipientAddress } }\\
+\textbf{\VAR{recipientCity }, \VAR{ recipientStateInitials } \VAR{ recipientZipCode } }
 \end{tabular}
 
 \vspace{12px}
 \def\arraystretch{1.5} % For vertical spacing in table
 
-\hspace{-5pt}\begin{tabular}{llp{.4\linewidth}lrr}
+\begin{tabular}{@{ }>{\columncolor{white}[\interwordspace][\tabcolsep]}llp{.4\linewidth}lrr}
    \rowcolor{slightlylightergray}  Date & Item name & Description & Units/hrs & Rate & Subtotal \\
     %[ for entry in entries
     \VAR{ entry.date } & \VAR{ entry.title } & \VAR{ entry.description } & \VAR{ entry.units } & \VAR{ entry.rate } & \VAR{ entry.total }\\
@@ -105,7 +107,7 @@ Bill to:\\
    &&& Taxes   & \VAR{ taxesPercent }\%  & \VAR{ taxesAmount }\\
    &&& Discount && -\$\VAR{ discountAmount } \\
    \cline{4-6} \vspace{-12px}\\
-&&& \begin{large}\textbf{Total} \end{large} && \begin{large} \textbf{\$\VAR{ totalAmount }} \end{large}
+&&& \begin{large}\textbf{Total} \end{large} & \multicolumn{2}{r}{\begin{large} \textbf{\$\VAR{ totalAmount }}\end{large}}\\
 \end{tabular}
 
 \vspace{1cm}
