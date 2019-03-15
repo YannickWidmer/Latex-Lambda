@@ -4,7 +4,7 @@ import boto3
 import os
 import ast
 from datetime import datetime
-
+from jinja2 import Environment, FileSystemLoader, meta
 
 def test_template(name,data, to_pdf, images = {}):
 
@@ -73,14 +73,15 @@ if input("Test nda y/N") == 'y':
                     "recipientName": "tispr",
                     "contractDated": "1/1/2019",
                     "contractEndWithinDays": 7,
+                    "agreementExpireInYears": 1,
                     "lawState": "California",
                     #"recipientRepresentantName": "Jonathan",
                     "recipientRepresentantTitle": "Boss",
                     "ownerRole": "Client",
                     "ownerAddress": "8123 McConnell",
                     "ownerCity": "Westchester",
-                    "ownerState": "California:OwnerState",
-                    "ownerZipCode": "90045:OwnerZip",
+                    "ownerState": "California",
+                    "ownerZipCode": "90045",
                     "recipientAddress": "8123 McConnell",
                     "recipientCity": "Santa Monica",
                     "recipientState": "California",
@@ -176,3 +177,20 @@ if input("Test invoice y/N") == 'y':
         "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
         })
 
+for temp in ['contract','nda','invoice']:
+    if input(f"Check all variables in {temp} y/N") =='y':
+        latex_jinja_env = Environment(
+            block_start_string='\BLOCK{',
+            block_end_string='}',
+            variable_start_string='\VAR{',
+            variable_end_string='}',
+            comment_start_string='\#{',
+            comment_end_string='}',
+            line_statement_prefix='%[',
+            line_comment_prefix='%#',
+            trim_blocks=True,
+            autoescape=False,
+            loader=FileSystemLoader(os.path.join('./', 'templates')))
+        template_source = latex_jinja_env.loader.get_source(latex_jinja_env,  f'{temp}.tex')[0]
+        parsed_content = latex_jinja_env.parse(template_source)
+        print(meta.find_undeclared_variables(parsed_content))
