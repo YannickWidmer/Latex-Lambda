@@ -3,6 +3,8 @@ import json
 import boto3
 import os
 import ast
+from datetime import datetime
+
 
 def test_template(name,data, to_pdf, images = {}):
 
@@ -87,20 +89,89 @@ if input("Test nda y/N") == 'y':
     test_template("nda",{},False)
 
 if input("Test invoice y/N") == 'y':
-    test_template("invoice",{
-                    "ownerName": "Yannick",
-                    "recipientName": "tispr",
-                    "ownerAddress": "8123 McConnell",
-                    "ownerState": "California",
-                    "ownerZipCode": "90045",
-                    "recipientAddress": "8123 McConnell",
-                    "recipientState": "California",
-                    "recipientZipCode": "90045"
-    },True,
-    images = {
-        "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
-        })
-    test_template("invoice",{},False,
+    test_template(
+        "invoice",
+        {
+            "senderName": "Tina Smith",
+            "senderAddress": "8123 McConnell Ave",
+            "senderCity": "Los Angeles",
+            "senderStateInitials": "CA",
+            "senderZipCode": "90045",
+            "recipientName": "Andre McGuire",
+            "recipientAddress": "1635 16th St",
+            "recipientCity": "Santa Monica",
+            "recipientStateInitials": "CA",
+            "recipientZipCode": "90404",
+            "invoiceNumber": 1,
+            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "taxesPercent": 0,
+            "discountAmount": 0,
+            "subtotal": 456.35,
+            "totalAmount": 456.35,
+            "feePercentage":10.0,
+            "entries":[
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                }
+            ]
+        },
+        True,
+        images = {
+            "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+            })
+    test_template("invoice",
+        {
+            "senderName": "Tina Smith",
+            "senderAddress": "8123 McConnell Ave",
+            "senderCity": "Los Angeles",
+            "senderStateInitials": "CA",
+            "senderZipCode": "90045",
+            "recipientName": "Andre McGuire",
+            "recipientAddress": "1635 16th St",
+            "recipientCity": "Santa Monica",
+            "recipientStateInitials": "CA",
+            "recipientZipCode": "90404",
+            "invoiceNumber": 1,
+            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "taxesPercent": 0,
+            "discountAmount": 0,
+            "subtotal": 456.35,
+            "totalAmount": 456.35,
+            "feePercentage":10.0,
+            "entries":[
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                }
+            ]
+        },False,
     images = {
         "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
         })
