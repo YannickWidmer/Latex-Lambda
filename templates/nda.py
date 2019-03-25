@@ -83,7 +83,7 @@ def render(data, to_pdf):
             if key in data and not type(data[key])  is bool:
                 error += f"{key} has to be a boolean.\n"
 
-        if type(data['isDisclosurePerpetual']) is bool and data['isDisclosurePerpetual']:
+        if type(data['isDisclosurePerpetual']) is bool and not data['isDisclosurePerpetual']:
             if 'disclosureExpireInYears' not in data:
                 error += "isDisclosurePerpetual is false but no disclosureExpireInYears is given.\n"
             if not type(data['disclosureExpireInYears']) is int:

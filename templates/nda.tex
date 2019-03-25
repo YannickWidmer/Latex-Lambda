@@ -69,7 +69,9 @@
 \end{center}
 
 This Non-disclosure Agreement (the "{\bf Agreement}") is made and entered into as of the
-\BLOCK{ if isEffectiveDateSpecific }\VAR{contractDated}\BLOCK{ else }
+\BLOCK{ if isEffectiveDateSpecific }
+\VAR{contractDated}
+\BLOCK{ else }
 last date signed below
 \BLOCK{ endif }
 (the  "{\bf Effective Date}") by and between \VAR{ownerName},
@@ -143,13 +145,18 @@ obligations  of confidentiality and other obligations hereunder.
 The Recipient's legal counsel may retain one copy of the Disclosing Party's Proprietary Information for archival purposes only.
 
 \section{Term and Termination}
-This Agreement is effective as of the Effective Date and shall continue in full force and effect until the \VAR{agreementExpireInYears}-year anniversary thereof. Either party may terminate this Agreement, for any reason or for no reason, upon
-\BLOCK{ if toPdf }
-\VAR{contractEndWithinDaysWord} (\VAR{contractEndWithinDays})
+This Agreement is effective as of the Effective Date and shall continue in full force and effect until the \VAR{agreementExpireInYears}-year anniversary thereof.
+\BLOCK{ if contractEndWithinDays ==0 }
+    Either party may terminate this Agreement, at any time, for any or no reason, with or without cause.
 \BLOCK{ else }
-\VAR{contractEndWithinDays}
+    Either party may terminate this Agreement, for any reason or for no reason, upon
+    \BLOCK{ if toPdf }
+        \VAR{contractEndWithinDaysWord} (\VAR{contractEndWithinDays})
+    \BLOCK{ else }
+        \VAR{contractEndWithinDays}
+    \BLOCK{ endif }
+    days prior written notice to the other party.
 \BLOCK{ endif }
-days prior written notice to the other party.
 \BLOCK{if isDisclosurePerpetual}
 The obligations of the Recipient specified in Section \ref{sec:discl} shall continue after expiration or termination of this Agreement with respect to each item of Proprietary Information disclosed hereunder until and unless one of the exceptions set forth in Section \ref{sec:limitOblig} applies to such item of Proprietary Information.
 \BLOCK{ else }
