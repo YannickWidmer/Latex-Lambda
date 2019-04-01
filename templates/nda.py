@@ -93,7 +93,7 @@ def render(data, to_pdf):
             if 'contractDated' not in data:
                 error += "isEffectiveDateSpecific is true but no contractDated is given.\n"
 
-        if len(error) >0 :
+        if len(error) >0:
             raise ValueError(error)
 
             # Setting State initials
