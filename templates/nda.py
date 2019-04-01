@@ -86,7 +86,7 @@ def render(data, to_pdf):
         if type(data['isDisclosurePerpetual']) is bool and not data['isDisclosurePerpetual']:
             if 'disclosureExpireInYears' not in data:
                 error += "isDisclosurePerpetual is false but no disclosureExpireInYears is given.\n"
-            if not type(data['disclosureExpireInYears']) is int:
+            elif not type(data['disclosureExpireInYears']) is int:
                 error += "disclosureExpireInYears is not an integer.\n"
 
         if type(data['isEffectiveDateSpecific']) is bool and data['isEffectiveDateSpecific']:

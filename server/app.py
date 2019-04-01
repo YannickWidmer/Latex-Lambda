@@ -85,6 +85,7 @@ def submit():
                 "isRecipientCompany": True,
                 "contractDated": "1/1/2019",
                 "contractEndWithinDays": 7,
+                "disclosureExpireInYears": 3,
                 "agreementExpireInYears": 2,
                 "lawState": "California",
                 "recipientRepresentantName": "Jonathan",

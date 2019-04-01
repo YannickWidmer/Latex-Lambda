@@ -67,8 +67,8 @@ if input("Test nda y/N") == 'y':
     test_template("nda",{
                     "isEffectiveDateSpecific": True,
                     "isDisclosurePerpetual": False,
-                    "isOwnerCompany": False,
-                    "isRecipientCompany": True,
+                    "isOwnerCompany": True,
+                    "isRecipientCompany": False,
                     "ownerName": "Yannick",
                     "recipientName": "tispr",
                     "contractDated": "1/1/2019",
