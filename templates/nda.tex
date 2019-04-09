@@ -15,8 +15,21 @@
 % %%%%%%%%%%%%%%%%  In production, JinJa will have gotten rid of     %%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%  the VAR and BLOCK commands.                      %%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\VAR}[1]{{\color{blue}#1}}
+\makeatletter
+\edef\history{ }
+\newcommand{\historyAdd}[1]{\edef\history{\history{}#1 }}
+\newcommand{\VAR}[1]{{\color{blue} #1}\g@addto@macro\history{#1\\}}
 \newcommand{\BLOCK}[1]{~\newline{ \color{red}#1 }}
+\makeatother
+
+
+\AtEndDocument{
+\BLOCK{ if toPdf and not toPdf }
+This is only printed if toPdf is not set which never happens in the lambda
+The variables used in this doc are:\\
+\history
+\BLOCK{ endif }
+}
 % For stuff that only appears in html version and should be verbatim
 % This works because HCode is defined for htlatex but not for pdflatex,
 % hence providecommand overrides the command for pdflatex but for htlatex it is
@@ -137,7 +150,6 @@ The Recipient agrees that it shall not receive any right, title or interest in, 
 Each of the parties hereto represents, warrants and covenants that the trade secrets which it discloses to the other party pursuant to this Agreement have not been stolen, appropriated, obtained or converted without authorization.
 
 \section{Return of Proprietary Information}
-
 The Recipient shall, upon the written request of the Disclosing Party, return to the Disclosing Party all Proprietary Information received by the Recipient \representativesMention{or} from the Disclosing Party (and all copies and reproductions thereof). In addition, the Recipient shall destroy:  (i) any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party; and (ii) any Proprietary Information of the Disclosing Party (and all copies and reproductions thereof) which is in electronic form or cannot otherwise be returned to the Disclosing Party. Alternatively, upon written request of the Disclosing Party, the Recipient shall destroy all Proprietary Information received by the Recipient {representativesMention}(or) from the Disclosing Party (and all copies and reproduction thereof) and any notes, reports or other documents prepared by the Recipient which contain Proprietary Information of the Disclosing Party. Notwithstanding the return or destruction of the Proprietary
 Information, the Recipient \representativesMention{and} will continue to be bound by
 \VAR{  'his'  if isCompany == 'NoNo' else 'their' }
