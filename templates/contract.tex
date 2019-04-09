@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[10pt]{article}
 \usepackage[english]{babel}
 
 \usepackage{mathptmx}
@@ -7,7 +7,7 @@
 \usepackage{graphicx}
 \usepackage[margin=1in]{geometry}
 \setlength{\parskip}{1em}
-
+\setlength\parindent{0pt}
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,11 +41,10 @@
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{document}
 \begin{center}
-{\scshape\Large \par}
 \vspace{1.5cm}
-{\huge\bfseries \uppercase{\VAR{recipientName if isClientOwner else consultantName}} \par}
-\vspace{1cm}
-{\huge\bfseries CONSULTING AGREEMENT \par}
+{\begin{Large}\begin{bfseries} \uppercase{\VAR{clientName if isClientOwner else consultantName}} \end{bfseries} \end{Large}\par}
+\vspace{10pt}
+{\begin{Large}\begin{bfseries} CONSULTING AGREEMENT \end{bfseries} \end{Large}\par}
 \vspace{1cm}
 %\includegraphics{logo.png}
 %\includegraphics{https://i1.wp.com/statsbomb.com/wp-content/uploads/2016/03/luck-skill.jpg}
@@ -181,7 +180,7 @@ During the Consultation Period and for a period of six (6) months thereafter, th
 \section{Other Agreements; Warranty}
 \begin{enumerate}
     \item The \VAR{ consultantWithWithoutEmployees } hereby
-    \VAR{ 'represents' if isConsultantCompany else 'represent'}
+    \VAR{ 'represent' if isConsultantCompany else 'represents'}
     that, except as the
     \VAR{ 'Consultant and its Employees have' if isConsultantCompany else 'Consultant has' }
     disclosed in writing to the Client, the
@@ -262,7 +261,7 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 
 
 \renewcommand{\arraystretch}{2}
-\setlength\parindent{0pt}
+
 
 \vspace{2cm}
 
@@ -321,9 +320,9 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \refstepcounter{exhibit}
 \label{exhibitA}
 \vspace{1.5cm}
-{\huge\bfseries EXHIBIT \Alph{exhibit} \par}
-\vspace{1cm}
-{\huge\bfseries \uppercase{Description of Services} \par}
+{\begin{Large}\begin{bfseries} EXHIBIT \Alph{exhibit}  \end{bfseries} \end{Large}\par}
+\vspace{10pt}
+{\begin{Large}\begin{bfseries} \uppercase{Description of Services} \end{bfseries} \end{Large}\par}
 \end{center}
 \VAR{ workscope }
 \newpage
@@ -333,9 +332,9 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \refstepcounter{exhibit}
 \label{exhibitB}
 \vspace{1.5cm}
-{\huge\bfseries EXHIBIT \Alph{exhibit} \par}
-\vspace{1cm}
-{\huge\bfseries \uppercase{Expenses Guidelines} \par}
+{\begin{Large}\begin{bfseries} EXHIBIT \Alph{exhibit} \end{bfseries} \end{Large} \par}
+    \vspace{10pt}
+{\begin{Large}\begin{bfseries} \uppercase{Expenses Guidelines} \end{bfseries} \end{Large} \par}
 \end{center}
 \VAR{expenseAdditionalCriteria}
 \newpage
@@ -345,9 +344,9 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \refstepcounter{exhibit}
 \label{exhibitC}
 \vspace{1.5cm}
-{\huge\bfseries EXHIBIT \Alph{exhibit} \par}
-\vspace{1cm}
-{\huge\bfseries \uppercase{OWNERSHIP AND ATTRIBUTIONS Guidelines} \par}
+{\begin{Large}\begin{bfseries} EXHIBIT \Alph{exhibit} \end{bfseries} \end{Large} \par}
+\vspace{10pt}
+{\begin{Large}\begin{bfseries} \uppercase{OWNERSHIP AND ATTRIBUTIONS Guidelines} \end{bfseries} \end{Large} \par}
 \end{center}
 \begin{enumerate}
     \item  % I have to put the \item in front other wise I get an error in the preview
@@ -361,7 +360,7 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
     \end{enumerate}
     \item
     \BLOCK{endif}
-    \underline{Attribution}. In connection with the Client's use of the Inventions hereby assigned, the Client
+    \underline{Attribution} In connection with the Client's use of the Inventions hereby assigned, the Client
     \BLOCK{ if isClientNeedToCredit }
     shall identify the Consultant as the creator of the Inventions, in any reasonable manner requested by the Consultant.
     \BLOCK{else}
