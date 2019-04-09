@@ -11,6 +11,7 @@ def test_template(name,data, to_pdf, images = {}):
     print("##########################################################")
     print("##########################################################")
     print(f"############# testing for template: {name} ##############")
+    print(f"#############  {'PDF ' if to_pdf else 'HTML'}                         ##############")
     print("##########################################################")
     print("##########################################################")
     payload = json.dumps({
@@ -20,6 +21,8 @@ def test_template(name,data, to_pdf, images = {}):
         "images" : images
         })
 
+    print()
+    print("##################  Payload  #############################")
     print(payload)
 
     client = boto3.client('lambda')
@@ -32,7 +35,8 @@ def test_template(name,data, to_pdf, images = {}):
 
     res = json.loads(response['Payload'].read().decode())
 
-    print("############# RES ###############")
+    print()
+    print("####################  RES  ##############################")
 
     print([key for key in res])
 
@@ -40,13 +44,13 @@ def test_template(name,data, to_pdf, images = {}):
 
     for ending in ['pdf','css','log']:
         if ending in res:
-            print(f"############# write document.{ending} ###############")
+            print(f"############# write document.{ending}         ###############")
             with open(os.path.join(out_dir, f'document.{ending}'), 'wb+') as outfile:
                 outfile.write(base64.b64decode(res[ending]))
 
     for ending in ['html','tex']:
         if ending in res:
-            print(f"############# write document.{ending} ###############")
+            print(f"############# write document.{ending}         ###############")
             with open(os.path.join(out_dir, f'document.{ending}'), 'w+') as outfile:
                 outfile.write(res[ending])
 
@@ -57,11 +61,47 @@ def test_template(name,data, to_pdf, images = {}):
                 outfile.write(res[out])
 
 
-    for tx in ['errorMessage','stackTrace','data','images']:
+    for tx in ['stackTrace','data','images']:
         if tx in res:
-            print(f"\n############# PRINT {tx} ###############\n")
+            print(f"\n############# PRINT {tx}      #########################")
             print(res[tx])
+            print()
 
+
+if input("Test Consulting Agreement y/N") == 'y':
+    test_template("contract",{
+                'clientName':'Yannick',
+                'consultantName': 'Jonathan',
+                'clientAddress': 'clientAddress',
+                'clientCity': 'clientCity',
+                'clientState': 'California',
+                'clientZipCode': 12345,
+                'consultantAddress': 'address of consultant',
+                'consultantCity': 'City of Angels',
+                'consultantState': 'Texas',
+                'consultantZipCode': '234234523',
+                'isClientOwner': True,
+                'isEffectiveDateSpecific': False,
+                'contractEnd':datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                'lawState': 'California',
+                'isClientCompany': True,
+                'isConsultantCompany': True,
+                'paymentRate':'day',
+                'invoiceFrequency':'biWeekly',
+                'invoicePaymentDays': 30,
+                'paymentPrice': 10.2,
+                'invoiceFee': 4.5,
+                'isConsultantPayingExpenses': False,
+                'hasExpenseAdditionalCriteria' : False,
+                'isExpenseNeedPreApproval': False,
+                'hasExpensePreApprovalPrice': False,
+                'contractEndWithinDays': 2,
+                'workscope':' The workscope, meaning what there is to do.',
+                'canConsultantUseWork': True,
+                'isClientNeedToCredit': True,
+                'hasOwnershipAdditionalCriteria': False
+                },True)
+    test_template("contract",{},False)
 
 if input("Test nda y/N") == 'y':
     test_template("nda",{
@@ -137,24 +177,6 @@ if input("Test invoice y/N") == 'y':
             })
     test_template("invoice",
         {
-            "senderName": "Tina Smith",
-            "senderAddress": "8123 McConnell Ave",
-            "senderCity": "Los Angeles",
-            "senderStateInitials": "CA",
-            "senderZipCode": "90045",
-            "recipientName": "Andre McGuire",
-            "recipientAddress": "1635 16th St",
-            "recipientCity": "Santa Monica",
-            "recipientStateInitials": "CA",
-            "recipientZipCode": "90404",
-            "invoiceNumber": 1,
-            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            "taxesPercent": 0,
-            "discountAmount": 0,
-            "subtotal": 456.35,
-            "totalAmount": 456.35,
-            "feePercentage":10.0,
             "entries":[
                 {
                     'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
@@ -177,6 +199,7 @@ if input("Test invoice y/N") == 'y':
     images = {
         "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
         })
+
 
 for temp in ['contract','nda','invoice']:
     if input(f"Check all variables in {temp} y/N") =='y':
