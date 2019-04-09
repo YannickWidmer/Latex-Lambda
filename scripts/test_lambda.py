@@ -101,7 +101,7 @@ if input("Test Consulting Agreement y/N") == 'y':
                 'isClientNeedToCredit': True,
                 'hasOwnershipAdditionalCriteria': False
                 },True)
-    test_template("contract",{},False)
+    test_template("contract",{'paymentRate':'day'},False)
 
 if input("Test nda y/N") == 'y':
     test_template("nda",{
