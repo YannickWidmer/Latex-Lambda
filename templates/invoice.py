@@ -26,7 +26,7 @@ dates = [
 def render(data, to_pdf):
     data['toPdf'] = to_pdf
 
-    if True: # In case we create a pdf everything needs to be there
+    if to_pdf: # In case we create a pdf everything needs to be there
         # First the data validation
         error = ""
         for key in expected_values:
