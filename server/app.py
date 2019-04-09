@@ -67,10 +67,7 @@ def submit():
     if request.form['action'] == 'Submit':
         return get_html({
         "name": "nda",
-        "data": {
-                "ownerName": ownerName,
-                "recipientName": recipientName
-            }
+        "data": {}
         },'edit_nda.html')
 
     elif request.form['action'] == 'Download_contract':
@@ -101,6 +98,7 @@ def submit():
                 "recipientZipCode": "90045"
                 }
         })
+
     elif request.form['action'] == 'Submit_invoice':
         return get_html({
         "name": "invoice",
@@ -127,16 +125,18 @@ def submit():
         "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
         },'edit_invoice.html')
 
+
+
     elif request.form['action'] == 'Download_invoice':
         return get_pdf({
         "name": "invoice",
         "data": {
-            "senderName": "Tina Smith",
+            "senderName": ownerName,
             "senderAddress": "8123 McConnell Ave",
             "senderCity": "Los Angeles",
             "senderStateInitials": "CA",
             "senderZipCode": "90045",
-            "recipientName": "Andre McGuire",
+            "recipientName": recipientName,
             "recipientAddress": "1635 16th St",
             "recipientCity": "Santa Monica",
             "recipientStateInitials": "CA",
@@ -171,29 +171,54 @@ def submit():
         "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
         })
 
+    elif request.form['action'] == 'Download_consulting_agreement':
+        return get_pdf({
+        "name": "contract",
+        "data": {
+                'clientName':ownerName,
+                'consultantName': recipientName,
+                'clientAddress': 'clientAddress',
+                'clientCity': 'clientCity',
+                'clientState': 'California',
+                'clientZipCode': 12345,
+                'consultantAddress': 'address of consultant',
+                'consultantCity': 'City of Angels',
+                'consultantState': 'Texas',
+                'consultantZipCode': '234234523',
+                'isClientOwner': True,
+                'isEffectiveDateSpecific': False,
+                'contractEnd':datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                'lawState': 'California',
+                'isClientCompany': True,
+                'isConsultantCompany': True,
+                'paymentRate':'day',
+                'invoiceFrequency':'biWeekly',
+                'invoicePaymentDays': 30,
+                'paymentPrice': 10.2,
+                'invoiceFee': 4.5,
+                'isConsultantPayingExpenses': False,
+                'hasExpenseAdditionalCriteria' : False,
+                'isExpenseNeedPreApproval': False,
+                'hasExpensePreApprovalPrice': False,
+                'contractEndWithinDays': 2,
+                'workscope':' The workscope, meaning what there is to do.',
+                'canConsultantUseWork': True,
+                'isClientNeedToCredit': True,
+                'hasOwnershipAdditionalCriteria': False
+            }
+        })
+
+    elif request.form['action'] == 'Submit_consulting_agreement':
+        return get_html({
+        "name": "contract",
+        "data": {}
+        },'edit_consulting_agreement.html')
+
 @app.route('/invoice')
 def invoice_page():
     return get_html( {
     "name": "invoice",
     "data": {
-            "senderName": "Tina Smith",
-            "senderAddress": "8123 McConnell Ave",
-            "senderCity": "Los Angeles",
-            "senderStateInitials": "CA",
-            "senderZipCode": "90045",
-            "recipientName": "Andre McGuire",
-            "recipientAddress": "1635 16th St",
-            "recipientCity": "Santa Monica",
-            "recipientStateInitials": "CA",
-            "recipientZipCode": "90404",
-            "invoiceNumber": 1,
-            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            "taxesPercent": 0,
-            "discountAmount": 0,
-            "totalAmount": 456.30,
-            "subtotal": 456.35,
-            "feePercentage":10.0,
             "entries":[
                 {
                     'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
@@ -216,6 +241,14 @@ def invoice_page():
         "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
     },
     'edit_invoice.html')
+
+
+@app.route('/consultingAgreement')
+def consulting_agreement_page():
+    return get_html( {
+            "name": "contract",
+            "data": {}
+        },'edit_consulting_agreement.html')
 
 
 if __name__ == '__main__':
