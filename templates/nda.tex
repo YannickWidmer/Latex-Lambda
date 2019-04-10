@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[8pt]{article}
 \usepackage[english]{babel}
 
 \usepackage{mathptmx}
@@ -9,6 +9,13 @@
 \usepackage[margin=1in]{geometry}
 \setlength{\parskip}{1em}
 \setlength\parindent{0pt}
+
+% Title formatting
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\fontsize{12}{15}\bfseries}{\thesection}{1em}{}
+\titlespacing{\section}{0pt}{\parskip}{-0.5em}
+
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,13 +31,13 @@
 \makeatother
 
 
-\AtEndDocument{
-\BLOCK{ if toPdf and not toPdf }
-This is only printed if toPdf is not set which never happens in the lambda
-The variables used in this doc are:\\
-\history
-\BLOCK{ endif }
-}
+% \AtEndDocument{
+% \BLOCK{ if toPdf and not toPdf }
+% This is only printed if toPdf is not set which never happens in the lambda
+% The variables used in this doc are:\\
+% \history
+% \BLOCK{ endif }
+% }
 % For stuff that only appears in html version and should be verbatim
 % This works because HCode is defined for htlatex but not for pdflatex,
 % hence providecommand overrides the command for pdflatex but for htlatex it is
@@ -78,51 +85,50 @@ The variables used in this doc are:\\
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{document}
 \begin{center}
-\begin{Large}\begin{bfseries} NON-DISCLOSURE AGREEMENT \end{bfseries} \end{Large}
-\vspace{1cm}
+\begin{large}\begin{bfseries} NON-DISCLOSURE AGREEMENT \end{bfseries} \end{large}
 \end{center}
 
-This Non-disclosure Agreement (the "{\bf Agreement}") is made and entered into as of the
+This Non-disclosure Agreement (the "\begin{bf}Agreement\end{bf}") is made and entered into as of the
 \BLOCK{ if isEffectiveDateSpecific }
 \VAR{contractDated}
 \BLOCK{ else }
 last date signed below
 \BLOCK{ endif }
-(the  "{\bf Effective Date}") by and between \VAR{ownerName},
+(the  "\begin{bf}Effective Date\end{bf}") by and between \VAR{ownerName},
 \BLOCK{ if isOwnerCompany }
 a \VAR{ ownerState } corporation with offices at
 \BLOCK{ else }
 an individual residing at
 \BLOCK{ endif }
-\VAR{ ownerAddress }, \VAR{ ownerCity }, \VAR{ ownerStateInitials} \VAR{ ownerZipCode } (the "{\bf Owner}"), and
+\VAR{ ownerAddress }, \VAR{ ownerCity }, \VAR{ ownerStateInitials} \VAR{ ownerZipCode } (the "\begin{bf}Owner\end{bf}"), and
 \VAR{recipientName},
 \BLOCK{ if isRecipientCompany }
 a \VAR{ recipientState } corporation with offices at
 \BLOCK{ else }
 an individual residing at
 \BLOCK{ endif }
-\VAR{ recipientAddress }, \VAR{ recipientCity }, \VAR{recipientStateInitials} \VAR{ recipientZipCode } (the "{\bf Second Party}").
+\VAR{ recipientAddress }, \VAR{ recipientCity }, \VAR{recipientStateInitials} \VAR{ recipientZipCode } (the "\begin{bf}Second Party\end{bf}").
 
 
 \section{Background}
-The Owner and the Second Party (the "{\bf Parties}") intend to engage in discussions and negotiations concerning the possible establishment of a business relationship between them.  In the course of such discussions and negotiations and in the course of any such business relationship, it is anticipated that each party will disclose or deliver to the other party
+The Owner and the Second Party (the "\begin{bf}Parties\end{bf}") intend to engage in discussions and negotiations concerning the possible establishment of a business relationship between them.  In the course of such discussions and negotiations and in the course of any such business relationship, it is anticipated that each party will disclose or deliver to the other party
 % representativesDefinition
 % The next paragraph depends on the client and consultant being a company or an individual the variable containing this information is isCompany
 % and contains [Yes|No][Yes|No], the first Yes no stands for the consultant and the second for the client. i.e. if both are a company the variable will be YesYes.
  \VAR{
     {
         'NoNo':'',
-        'YesYes':'and to the other party’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "{\\bf Representatives}")',
-        'YesNo':'and, in the case of the Owner, to the Owner’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "{\\bf Representatives}"),',
-        'NoYes':'and, in the case of the Second Party, to the Second Party’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "{\\bf Representatives}"),'
+'YesYes':'and to the other party’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "\\begin{bf}Representatives\\end{bf}")',
+        'YesNo':'and, in the case of the Owner, to the Owner’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "\\begin{bf}Representatives\\end{bf}"),',
+        'NoYes':'and, in the case of the Second Party, to the Second Party’s directors, officers, employees, agents or advisors (including, without limitation, attorneys, accountants, consultants, bankers, financial advisors and members of advisory boards) (collectively, "\\begin{bf}Representatives\\end{bf}"),'
     }[isCompany]
 }
-certain of \pronouns trade secrets or confidential or proprietary information for the purposes of enabling the other party to evaluate the feasibility of such business relationship and to perform \pronouns obligations and exercise \pronouns rights under any such business relationship that is agreed to between the parties (the "{\bf Purposes}").
+certain of \pronouns trade secrets or confidential or proprietary information for the purposes of enabling the other party to evaluate the feasibility of such business relationship and to perform \pronouns obligations and exercise \pronouns rights under any such business relationship that is agreed to between the parties (the "\begin{bf}Purposes\end{bf}").
 
-The parties have entered into this Agreement in order to assure the confidentiality of such trade secrets and confidential or proprietary information in accordance with the terms of this Agreement.  As used in this Agreement, the party disclosing Proprietary Information (as defined below) is referred to as the "{\bf Disclosing Party}"; the party receiving such Proprietary Information is referred to as the "{\bf Recipient}".
+The parties have entered into this Agreement in order to assure the confidentiality of such trade secrets and confidential or proprietary information in accordance with the terms of this Agreement.  As used in this Agreement, the party disclosing Proprietary Information (as defined below) is referred to as the "\begin{bf}Disclosing Party\end{bf}"; the party receiving such Proprietary Information is referred to as the "\begin{bf}Recipient\end{bf}".
 
 \section{Proprietary Information}
-As used in this Agreement, the term "{\bf Proprietary Information}" shall mean all trade secrets or confidential or proprietary information designated as such in writing by the Disclosing Party, whether by letter or by the use of an appropriate proprietary stamp or legend, prior to or at the time any such trade secret or confidential or proprietary information is disclosed by the Disclosing Party to the Recipient. Notwithstanding the foregoing, information which is disclosed to the Recipient by the Disclosing Party without an appropriate letter, proprietary stamp or legend, shall constitute Proprietary Information if (i) it would be apparent to a reasonable person, familiar with the Disclosing Party’s business and the industry in which it operates, that such information is of a confidential or proprietary nature the maintenance of which is important to the Disclosing Party or if (ii) the Disclosing Party, within 30 days after such disclosure, delivers to the Recipient a written document or documents describing such Proprietary Information and referencing the place and date of such oral, visual or written disclosure and the names of the Representatives of the Recipient to whom such disclosure was made.
+As used in this Agreement, the term "\begin{bf}Proprietary Information\end{bf}" shall mean all trade secrets or confidential or proprietary information designated as such in writing by the Disclosing Party, whether by letter or by the use of an appropriate proprietary stamp or legend, prior to or at the time any such trade secret or confidential or proprietary information is disclosed by the Disclosing Party to the Recipient. Notwithstanding the foregoing, information which is disclosed to the Recipient by the Disclosing Party without an appropriate letter, proprietary stamp or legend, shall constitute Proprietary Information if (i) it would be apparent to a reasonable person, familiar with the Disclosing Party’s business and the industry in which it operates, that such information is of a confidential or proprietary nature the maintenance of which is important to the Disclosing Party or if (ii) the Disclosing Party, within 30 days after such disclosure, delivers to the Recipient a written document or documents describing such Proprietary Information and referencing the place and date of such oral, visual or written disclosure and the names of the Representatives of the Recipient to whom such disclosure was made.
 
 \section{Scope of Agreement}
 This Agreement shall apply to all Proprietary Information disclosed between the parties hereto, whether before, on or after the date hereof.

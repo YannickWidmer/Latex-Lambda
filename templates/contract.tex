@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[8pt]{article}
 \usepackage[english]{babel}
 
 \usepackage{mathptmx}
@@ -8,6 +8,12 @@
 \usepackage[margin=1in]{geometry}
 \setlength{\parskip}{1em}
 \setlength\parindent{0pt}
+
+% Title formatting
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\fontsize{12}{15}\bfseries}{\thesection}{1em}{}
+\titlespacing{\section}{0pt}{\parskip}{-0.5em}
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,11 +47,7 @@
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \begin{document}
 \begin{center}
-\vspace{1.5cm}
-{\begin{Large}\begin{bfseries} \uppercase{\VAR{clientName if isClientOwner else consultantName}} \end{bfseries} \end{Large}\par}
-\vspace{10pt}
-{\begin{Large}\begin{bfseries} CONSULTING AGREEMENT \end{bfseries} \end{Large}\par}
-\vspace{1cm}
+{\begin{large}\begin{bfseries} CONSULTING AGREEMENT \end{bfseries} \end{large}\par}
 %\includegraphics{logo.png}
 %\includegraphics{https://i1.wp.com/statsbomb.com/wp-content/uploads/2016/03/luck-skill.jpg}
 \end{center}
@@ -320,9 +322,9 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \refstepcounter{exhibit}
 \label{exhibitA}
 \vspace{1.5cm}
-{\begin{Large}\begin{bfseries} EXHIBIT \Alph{exhibit}  \end{bfseries} \end{Large}\par}
+{\begin{large}\begin{bfseries} EXHIBIT \Alph{exhibit}  \end{bfseries} \end{large}\par}
 \vspace{10pt}
-{\begin{Large}\begin{bfseries} \uppercase{Description of Services} \end{bfseries} \end{Large}\par}
+{\begin{large}\begin{bfseries} \uppercase{Description of Services} \end{bfseries} \end{large}\par}
 \end{center}
 \VAR{ workscope }
 \newpage
@@ -332,9 +334,9 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \refstepcounter{exhibit}
 \label{exhibitB}
 \vspace{1.5cm}
-{\begin{Large}\begin{bfseries} EXHIBIT \Alph{exhibit} \end{bfseries} \end{Large} \par}
+{\begin{large}\begin{bfseries} EXHIBIT \Alph{exhibit} \end{bfseries} \end{large} \par}
     \vspace{10pt}
-{\begin{Large}\begin{bfseries} \uppercase{Expenses Guidelines} \end{bfseries} \end{Large} \par}
+{\begin{large}\begin{bfseries} \uppercase{Expenses Guidelines} \end{bfseries} \end{large} \par}
 \end{center}
 \VAR{expenseAdditionalCriteria}
 \newpage
@@ -344,9 +346,9 @@ IN WITNESS WHEREOF, the parties hereto have executed this Consulting Agreement a
 \refstepcounter{exhibit}
 \label{exhibitC}
 \vspace{1.5cm}
-{\begin{Large}\begin{bfseries} EXHIBIT \Alph{exhibit} \end{bfseries} \end{Large} \par}
+{\begin{large}\begin{bfseries} EXHIBIT \Alph{exhibit} \end{bfseries} \end{large} \par}
 \vspace{10pt}
-{\begin{Large}\begin{bfseries} \uppercase{OWNERSHIP AND ATTRIBUTIONS Guidelines} \end{bfseries} \end{Large} \par}
+{\begin{large}\begin{bfseries} \uppercase{OWNERSHIP AND ATTRIBUTIONS Guidelines} \end{bfseries} \end{large} \par}
 \end{center}
 \begin{enumerate}
     \item  % I have to put the \item in front other wise I get an error in the preview
