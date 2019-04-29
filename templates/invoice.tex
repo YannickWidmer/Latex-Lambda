@@ -62,13 +62,15 @@ The variables used in this doc are:\\
 
 
 \begin{htmldiv}
-    \begin{minipage}{.15\textwidth}
-        \BLOCK{if toPdf}
-        \includegraphics[width=\textwidth]{logo.png}
-        \BLOCK{ else }
-        \HCode{<img alt="PIC" src="\VAR{logo}"/>}
-        \BLOCK{ endif }
-    \end{minipage}
+    \BLOCK{ if logo is defined }
+        \begin{minipage}{.15\textwidth}
+            \BLOCK{if toPdf}
+            \includegraphics[width=\textwidth]{logo.png}
+            \BLOCK{ else }
+            \HCode{<img alt="PIC" src="\VAR{logo}"/>}
+            \BLOCK{ endif }
+        \end{minipage}
+    \BLOCK{ endif }
     \begin{minipage}[t]{.3\textwidth}
         \begin{tabular}{ll}
             \VAR{ senderName }  \\ \VAR{ senderAddress } \\ \VAR{ senderCity }, \VAR{ senderStateInitials }, \VAR{ senderZipCode }
@@ -96,20 +98,25 @@ Bill to:\\
 \vspace{12px}
 \def\arraystretch{1.5} % For vertical spacing in table
 
-\begin{tabular}{@{ }>{\columncolor{white}[\interwordspace][\tabcolsep]}llp{.4\linewidth}lrr}
-   \rowcolor{slightlylightergray}  Date & Item name & Description & Units/hrs & Rate & Subtotal \\
-    %[ for entry in entries
-    \VAR{ entry.date } & \VAR{ entry.title } & \VAR{ entry.description } & \VAR{ entry.units } & \VAR{ entry.rate } & \VAR{ entry.total }\\
-    %[ endfor
-    \cline{1-6}
-    \addlinespace[12px]\\
-   &&& \textbf{Subtotal} && \textbf{\$\VAR{ subtotal }}\\
-   &&& Taxes   & \VAR{ taxesPercent }\%  & \VAR{ taxesAmount }\\
-   &&& Discount && -\$\VAR{ discountAmount } \\
-   \cline{4-6} \vspace{-12px}\\
-&&& \begin{large}\textbf{Total} \end{large} & \multicolumn{2}{r}{\begin{large} \textbf{\$\VAR{ totalAmount }}\end{large}}\\
+\begin{tabular}{r}
+    \begin{tabular}{@{ }>{\columncolor{white}[\interwordspace][\tabcolsep]}lp{.14\linewidth}p{.32\linewidth}lrr}
+        \cellcolor{slightlylightergray}  Date & \cellcolor{slightlylightergray} Item name &  \cellcolor{slightlylightergray}Description &  \cellcolor{slightlylightergray}Units/hrs & \cellcolor{slightlylightergray} Rate & \cellcolor{slightlylightergray} Subtotal \\
+            %[ for entry in entries
+            \VAR{ entry.date } & \VAR{ entry.title } & \VAR{ entry.description } & \VAR{ entry.units } & \$\VAR{ entry.rate } & \$\VAR{ entry.total }\\
+            %[ endfor
+            \cline{1-6}
+    \end{tabular}\\
+            \addlinespace[9px]\\
+    \begin{tabular}{rrr}
+        \textbf{Subtotal} && \textbf{\$\VAR{ subtotal }}\\
+        \BLOCK{if taxesAmount is defined }
+        Taxes & \VAR{ taxesPercent }\%  & \$\VAR{ taxesAmount }\\
+        \BLOCK{ endif }
+        Discount && -\$\VAR{ discountAmount }\\
+        \cline{1-3} \vspace{-12px}\\
+        \begin{large}\textbf{Total} \end{large} && \begin{large} \textbf{\$\VAR{ totalAmount }}\end{large}\\
+    \end{tabular}
 \end{tabular}
-
 \vspace{1cm}
 
 
