@@ -92,9 +92,13 @@ def prepare_images(json_data, images, to_pdf):
             with open(f"/tmp/latex/pics/{image}","wb+") as f:
                 r.raw.decode_content = True
                 shutil.copyfileobj(r.raw, f)
-    else:
-        for image in images:
-            json_data[image.split('.')[0]] = images[image]
+
+    # Add images to data
+    for image in images:
+        data_key = image.split('.')[0]
+        if data_key in json_data:
+            raise ValueError(f"{data_key} has been specified in images and data")
+        json_data[data_key] = images[image]
 
     return json_data
 
