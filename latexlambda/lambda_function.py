@@ -22,7 +22,7 @@ def lambda_handler(event, context):
     name = event['name']
     to_pdf = event['to_pdf']
     data = event['data']
-    images = event.get('images',{})
+    files = event.get('files',{})
 
     # prepare  /tmp/templates
     shutil.rmtree("/tmp/templates", ignore_errors=True)
@@ -31,7 +31,7 @@ def lambda_handler(event, context):
     # Prepare /tmp/latex
     shutil.rmtree("/tmp/latex", ignore_errors=True)
     os.mkdir("/tmp/latex")
-    os.mkdir("/tmp/latex/pics")
+    os.mkdir("/tmp/latex/files")
 
     # Prepare /tmp/texmf
     # os.makedirs("/tmp/texmf", exist_ok=True)
@@ -70,8 +70,8 @@ def lambda_handler(event, context):
         reload(render_module)
 
     try:
-        # prepare images
-        data = prepare_images(data,images,to_pdf)
+        # prepare files
+        data = prepare_files(data,files,to_pdf)
         data = render_module.render(data, to_pdf)
         rendered_tex = render(data)
         res =  compiler(rendered_tex, to_pdf)
@@ -81,24 +81,24 @@ def lambda_handler(event, context):
         return {"stackTrace": traceback.format_exc(), "errorMessage": repr(e)}
 
 
-def prepare_images(json_data, images, to_pdf):
+def prepare_files(json_data, files, to_pdf):
     """
-    This function either downloads the images into the temporary folder to create a pdf
+    This function either downloads the files into the temporary folder to create a pdf
     or else sets the coresponding variable to the public url
     """
     if to_pdf:
-        for image in images:
-            r = requests.get(images[image], stream=True)
-            with open(f"/tmp/latex/pics/{image}","wb+") as f:
+        for file_name in files:
+            r = requests.get(files[file_name], stream=True)
+            with open(f"/tmp/latex/files/{file_name}","wb+") as f:
                 r.raw.decode_content = True
                 shutil.copyfileobj(r.raw, f)
 
     # Add images to data
-    for image in images:
-        data_key = image.split('.')[0]
+    for file_name in files:
+        data_key = file_name.split('.')[0]
         if data_key in json_data:
-            raise ValueError(f"{data_key} has been specified in images and data")
-        json_data[data_key] = images[image]
+            raise ValueError(f"{data_key} has been specified in files and data")
+        json_data[data_key] = files[file_name]
 
     return json_data
 
