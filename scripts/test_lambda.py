@@ -6,7 +6,7 @@ import ast
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader, meta
 
-def test_template(name,data, to_pdf, images = {}):
+def test_template(name,data, to_pdf, files = {}):
 
     print("##########################################################")
     print("##########################################################")
@@ -18,7 +18,7 @@ def test_template(name,data, to_pdf, images = {}):
         "name": name,
         "data": data,
         "to_pdf": to_pdf,
-        "images" : images
+        "files" : files
         })
 
     print()
@@ -61,7 +61,7 @@ def test_template(name,data, to_pdf, images = {}):
                 outfile.write(res[out])
 
 
-    for tx in ['stackTrace','data','images']:
+    for tx in ['stackTrace','data','files']:
         if tx in res:
             print(f"\n############# PRINT {tx}      #########################")
             print(res[tx])
@@ -134,7 +134,7 @@ if input("Test invoice y/N") == 'y':
     test_template(
         "invoice",
         {
-            "senderName": "Tina Smith",
+            "senderName": "Yannick Widmer @tispr",
             "senderAddress": "8123 McConnell Ave",
             "senderCity": "Los Angeles",
             "senderStateInitials": "CA",
@@ -145,35 +145,36 @@ if input("Test invoice y/N") == 'y':
             "recipientStateInitials": "CA",
             "recipientZipCode": "90404",
             "invoiceNumber": 1,
-            "issuedDate": datetime(2018,12,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            "dueDate": datetime(2019,1,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            "taxesPercent": 0,
+            "issuedDate": datetime(2019,4,29).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "dueDate": datetime(2019,5,29).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            "taxesPercent": 1,
+            "taxesAmount":25.5,
             "discountAmount": 0,
-            "subtotal": 456.35,
-            "totalAmount": 456.35,
+            "subtotal": 2550,
+            "totalAmount": 2550,
             "feePercentage":10.0,
             "entries":[
                 {
                     'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-                    'title': 'Logo',
-                    'description': 'Logo variants' ,
-                    'units': '02 units',
-                    'rate': 80,
-                    'total': 160
+                    'title': "Airflow won't write logs to s3",
+                    'description': "a shorter description",
+                    'units': '5.5 units',
+                    'rate': 100,
+                    'total': 550
                 },
                 {
                     'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
-                    'title': 'Squad core team',
-                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
-                    'units': '01:21 hrs',
-                    'rate': 75,
-                    'total': 101.35
+                    'title': 'Hours Worked',
+                    'description': "a long description that goes over two lines to see how it looks",
+                    'units': '20:00 hrs',
+                    'rate': 100,
+                    'total': 2000
                 }
             ]
         },
         True,
-        images = {
-            "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+        files = {
+            #"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
             })
     test_template("invoice",
         {
@@ -196,7 +197,7 @@ if input("Test invoice y/N") == 'y':
                 }
             ]
         },False,
-    images = {
+    files = {
         "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
         })
 
