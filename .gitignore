@@ -16,3 +16,5 @@ server/pdf_server.egg-info/*
 *.fdb_latexmk
 *.fls
 templates/inWork/*
+latex_compiler_lambda/python_packages/*
+latex_main_lambda/python_packages/*
