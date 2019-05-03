@@ -1,0 +1,91 @@
+\documentclass[8pt]{letter}
+\usepackage[english]{babel}
+
+
+\usepackage{mathptmx}
+\usepackage{pdfpages}
+\usepackage{xcolor}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[margin=1in]{geometry}
+\setlength{\parskip}{1em}
+\setlength\parindent{0pt}
+
+
+
+\newcommand{\VAR}[1]{{\color{blue}#1}}
+\newcommand{\BLOCK}[1]{~\newline{ \color{red}#1 }}
+
+
+
+% \AtEndDocument{
+% \BLOCK{ if toPdf and not toPdf }
+% This is only printed if toPdf is not set which never happens in the lambda
+% The variables used in this doc are:\\
+% \history
+% \BLOCK{ endif }
+% }
+% For stuff that only appears in html version and should be verbatim
+% This works because HCode is defined for htlatex but not for pdflatex,
+% hence providecommand overrides the command for pdflatex but for htlatex it is
+% the normal HCode command, which writes html code verbatim
+\providecommand{\HCode}[1]{}
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{document}
+
+\BLOCK{if upload is defined }
+\includepdf[pages=-]{./files/upload.pdf}
+\BLOCK{ elsif }
+\VAR{ html }
+\BLOCK{ else }
+    <content>
+\BLOCK{ endif }
+\newpage
+
+IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the Effective Date.
+
+\renewcommand{\arraystretch}{2}
+\setlength\parindent{0pt}
+
+\vspace{2cm}
+
+\begin{tabular}{p{.05\linewidth}p{.35\linewidth}p{.05\linewidth}p{.05\linewidth}p{.35\linewidth}}
+    \multicolumn{2}{l}{Signed for and on behalf of \VAR{ownerName} }
+    & & \multicolumn{2}{l}{Signed for and on behalf of \VAR{recipientName}}
+\\
+\vspace{1cm}
+\\
+    % owner side
+    By & \hrulefill
+    & % recipient side
+    &By & \hrulefill \\
+    % owner side
+    &\BLOCK{if isOwnerCompany}
+    \BLOCK{ if ownerRepresentantName is defined and ownerRepresentantTitle is defined}
+        \VAR{ownerRepresentantName },
+        \VAR{ownerRepresentantTitle }
+        \BLOCK{ else }
+        \hrulefill
+        \BLOCK{ endif }
+    \BLOCK{else}
+         \VAR{ownerName}
+    \BLOCK{endif}
+    & % recipient side
+    &&\BLOCK{ if isRecipientCompany }
+        \BLOCK{ if recipientRepresentantName is defined and recipientRepresentantTitle is defined}
+        \VAR{recipientRepresentantName },
+        \VAR{recipientRepresentantTitle }
+        \BLOCK{ else }
+        \hrulefill
+        \BLOCK{ endif }
+    \BLOCK{ else }
+      \VAR{ recipientName }
+    \BLOCK{endif}\\
+    % owner side
+    Date & \hrulefill
+    & % recipient side
+    &Date & \hrulefill
+\end{tabular}
+
+\end{document}

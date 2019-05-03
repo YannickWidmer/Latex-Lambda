@@ -201,8 +201,39 @@ if input("Test invoice y/N") == 'y':
         "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
         })
 
+if input("Test custom upload pdf y/N") == 'y':
+    test_template(
+        "custom_contract",
+        {
+            "senderName": "Yannick Widmer @tispr",
+            "recipientName": "Andre McGuire",
+        },
+        True,
+        files = {
+            "upload.pdf" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+            })
 
-for temp in ['contract','nda','invoice']:
+if input("Test custom html  y/N") == 'y':
+    test_template(
+        "custom_contract",
+        {
+            "senderName": "Yannick Widmer @tispr",
+            "recipientName": "Andre McGuire",
+            "html":"""<!DOCTYPE html>
+    <html>
+  <head>
+    <title></title>
+  </head>
+<body >
+  <h1 class="hmchapter" data-hmvarbodychaptertitle = "My title">My title</h1>
+  text <span style="font-style:italic">in a specific context</span> and more.
+</body>
+</html>
+            """
+        },
+        True)
+
+for temp in ['contract','nda','invoice','custom_contract_pdf']:
     if input(f"Check all variables in {temp} y/N") =='y':
         latex_jinja_env = Environment(
             block_start_string='\BLOCK{',
