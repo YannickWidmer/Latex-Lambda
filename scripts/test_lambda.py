@@ -6,7 +6,7 @@ import ast
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader, meta
 
-def test_template(name,data, to_pdf, images = {}):
+def test_template(name,data, to_pdf, files = {}):
 
     print("##########################################################")
     print("##########################################################")
@@ -18,7 +18,7 @@ def test_template(name,data, to_pdf, images = {}):
         "name": name,
         "data": data,
         "to_pdf": to_pdf,
-        "images" : images
+        "files" : files
         })
 
     print()
@@ -28,7 +28,7 @@ def test_template(name,data, to_pdf, images = {}):
     client = boto3.client('lambda')
 
     response = client.invoke(
-        FunctionName="latex_compiler",
+        FunctionName="lambda_main_latex",
         InvocationType='RequestResponse',
         Payload=payload,
     )

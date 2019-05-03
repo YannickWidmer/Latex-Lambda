@@ -4,9 +4,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "upload lambda",
+            "label": "upload main lambda",
             "type": "shell",
             "command": "${workspaceRoot}/scripts/upload_lambda.sh",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "upload latex lambda",
+            "type": "shell",
+            "command": "${workspaceRoot}/scripts/upload_latex_lambda.sh",
             "options": {
                 "cwd": "${workspaceRoot}"
             },

@@ -1,9 +1,9 @@
-cd latexlambda
+cd lambda_main_latex
 pip install -r requirements.txt --target python_packages/
 
-docker build --no-cache -t la0ruse/lambdalatex .
+docker build --no-cache -t la0ruse/lambda_main_latex .
 
-rm latexlambda.zip
-docker run --rm -it -v $(pwd)/:/var/host la0ruse/lambdalatex zip --symlinks -r -9 /var/host/latexlambda.zip .
+rm lambda_main_latex.zip
+docker run --rm -it -v $(pwd)/:/var/host la0ruse/lambda_main_latex zip --symlinks -r -9 /var/host/lambda_main_latex.zip .
 echo "Now uploading the function to AWS cloud"
-aws lambda update-function-code --function-name latex_compiler --zip-file fileb://latexlambda.zip
+aws lambda update-function-code --function-name lambda_main_latex --zip-file fileb://lambda_main_latex.zip
