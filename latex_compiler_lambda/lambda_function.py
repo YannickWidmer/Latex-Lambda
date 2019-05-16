@@ -6,7 +6,6 @@ import base64
 import zipfile
 import boto3
 import json
-import jinja2
 import requests
 import traceback
 import sys
