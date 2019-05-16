@@ -6,6 +6,65 @@ import ast
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader, meta
 
+def test_latex_compiler(to_pdf,tex,files={}):
+
+    print("##########################################################")
+    print("##########################################################")
+    print(f"############# testing tex  ##############")
+    print(f"#############  {'PDF ' if to_pdf else 'HTML'}                         ##############")
+    print("##########################################################")
+    print("##################   TEX     ################")
+    print(tex)
+
+    payload = json.dumps({
+        "tex": tex,
+        "to_pdf": to_pdf,
+        "files" : files
+        })
+
+    client = boto3.client('lambda')
+
+    response = client.invoke(
+        FunctionName="latex_compiler",
+        InvocationType='RequestResponse',
+        Payload=payload,
+    )
+
+    res = json.loads(response['Payload'].read().decode())
+    print()
+    print("####################  RES  ##############################")
+
+    print([key for key in res])
+
+    out_dir = './test_output/'
+
+    for ending in ['pdf','css','log']:
+        if ending in res:
+            print(f"############# write document.{ending}         ###############")
+            with open(os.path.join(out_dir, f'document.{ending}'), 'wb+') as outfile:
+                outfile.write(base64.b64decode(res[ending]))
+
+    for ending in ['html','tex']:
+        if ending in res:
+            print(f"############# write document.{ending}         ###############")
+            with open(os.path.join(out_dir, f'document.{ending}'), 'w+') as outfile:
+                outfile.write(res[ending])
+
+    for out in ['stdout','stderr','errorMessage']:
+        if out in res:
+            print(f"############# write {out} to {out}.txt ###############")
+            with open(os.path.join(out_dir, f'{out}.txt'), 'w+') as outfile:
+                outfile.write(res[out])
+
+
+    for tx in ['stackTrace','data','images']:
+        if tx in res:
+            print(f"\n############# PRINT {tx}      #########################")
+            print(res[tx])
+            print()
+
+
+
 def test_template(name,data, to_pdf, files = {}):
 
     print("##########################################################")
@@ -67,6 +126,11 @@ def test_template(name,data, to_pdf, files = {}):
             print(res[tx])
             print()
 
+
+if input("Test tex compiler to pdf y/N") == 'y':
+    test_latex_compiler(True, "\\documentclass[12pt]{article}\\begin{document}\\section*{Notes for My Paper}Don't forget to include examples of topicalization.They look like this\\end{document}")
+if input("Test tex compiler to html y/N") == 'y':
+    test_latex_compiler(False, "\\documentclass[12pt]{article}\\begin{document}\\section*{Notes for My Paper}Don't forget to include examples of topicalization.They look like this\\end{document}")
 
 if input("Test Consulting Agreement y/N") == 'y':
     test_template("contract",{
