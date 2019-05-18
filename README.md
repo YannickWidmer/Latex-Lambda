@@ -80,6 +80,30 @@ This new dict is then passed to Jinja to render the template `{name}.tex` with i
 
 # Developing
 
+## Code Structure
+
+The LaTeX compilation consists of 2 lambdas and one s3 directory, these correspond to the directories `lambda_main_latex`, `latex_compiler_lambda` and `templates`. Additionally there is a `script` folder for build and test scripts aswell as a `server` for prototypes with frontend.
+
+## Setup lambda in an AWS environment
+
+To add the LaTeX compiler to an AWS environment, create two lambdas and put the templates in an s3 directory.
+    - First decide in which bucket, or create a bucket, and a prefix inside that buchet to store the template
+    - Then create the pure LaTeX comipler with runtime environment Python 3.6 and environment variables `bucket` and `key_prefix` pointing to the s3 bucket and directory where the templates are.
+    - Then create the main lambda with runtime environment Python 3.6 and the same environment variables `bucket` and `key_prefix`. Additionally the environment variable `compiler_function_name` which should be set to the name of the first lambda function.
+    - Both Lambdas need access to read from the s3 directories additionally the main lambda needs access to trigger the compiler lambda like in the folowing mock policy:
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "SomeID name",
+                "Effect": "Allow",
+                "Action": "lambda:InvokeFunction",
+                "Resource": "arn:aws:lambda:us-west-2:{the rest of the arn}"
+            }
+        ]
+    }
+
 All needed files to work on the Lambda function are contained in the folder `latexlambda/` the templates and their corresponding python classes are in `templates/`.
 
 Note that for vs code users the `taks.json` file contains build tasks to upload the lambda function aswell as to upload the templates and test tasks to test the lambda or start a flask server to test it in a browser. **Make sure to configure your aws cli with an access key pair for the staging environment before using those scripts.** The scripts used by these tasks are in `scripts/`.
