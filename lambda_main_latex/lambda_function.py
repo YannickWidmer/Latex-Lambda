@@ -14,15 +14,15 @@ import sys
 
 from importlib import reload
 
-bucket = 'ds-temp-stg'
-
-key_prefix = 'latex_template_test/'
 
 render_module = None
 
 def lambda_handler(event, context):
+    # retrieve the lambda parameters
+    bucket = os.environ['bucket']
+    key_prefix = os.environ['key_prefix']
 
-    # retrieve parameters
+    # retrieve the call parameters
     name = event['name']
     to_pdf = event['to_pdf']
     data = event['data']
@@ -34,11 +34,6 @@ def lambda_handler(event, context):
 
     # connect to s3
     s3 = boto3.resource('s3')
-
-    # Prepare config file for htlatex: If we create an html file we need to load the cfg file
-    if not to_pdf:
-        with open("/tmp/latex/config.cfg", "w+") as f:
-            f.write(s3.Object(bucket,f"{key_prefix}config.cfg").get()['Body'].read().decode('utf-8'))
 
     # download template.tex and template.py to /tmp/templates
     tex_template =  s3.Object(bucket,f"{key_prefix}{name}.tex").get()['Body'].read().decode('utf-8')

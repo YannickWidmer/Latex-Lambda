@@ -13,14 +13,14 @@ from bs4 import BeautifulSoup
 
 from importlib import reload
 
-bucket = 'ds-temp-stg'
-key_prefix = 'latex_template_test/'
-
-render_module = None
 
 def lambda_handler(event, context):
 
-    # retrieve parameters
+    # retrieve the lambda parameters
+    bucket = os.environ['bucket']
+    key_prefix = os.environ['key_prefix']
+
+    # retrieve the call parameters
     to_pdf = event['to_pdf']
     tex = event['tex']
     files = event.get('files',{})
