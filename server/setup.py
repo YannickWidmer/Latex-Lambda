@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='pdf_server',
-    packages=['pdf_server'],
+    name='server',
+    packages=['./'],
     include_package_data=True,
     install_requires=[
         'flask','pybase64','boto3','bs4'

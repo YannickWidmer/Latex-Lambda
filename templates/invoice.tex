@@ -4,12 +4,19 @@
 \usepackage{mathptmx}
 \usepackage[table, rgb]{xcolor}
 \usepackage{enumerate}
-\usepackage[margin=1in]{geometry}
+\usepackage[bottom=1in]{geometry}
 \usepackage{graphicx}
 \usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage{ltablex}
 \setlength{\parskip}{1em}
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt} % % remove top line
+\cfoot{\thepage\ / \pageref{LastPage}}
 
 \newlength{\interwordspace}
 \settowidth{\interwordspace}{\ }
@@ -20,19 +27,9 @@
 % %%%%%%%%%%%%%%%%  the VAR and BLOCK commands.                      %%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
-\edef\history{ }
-\newcommand{\historyAdd}[1]{\edef\history{\history{}#1 }}
-\newcommand{\VAR}[1]{{\color{blue} #1}\g@addto@macro\history{#1}}
+\newcommand{\VAR}[1]{{\color{blue} #1}}
 \newcommand{\BLOCK}[1]{~\newline{ \color{red}#1 }}
 \makeatother
-
-
-\AtEndDocument{
-\BLOCK{ if toPdf and not toPdf }
-The variables used in this doc are:\\
-\history
-\BLOCK{ endif }
-}
 
 
 % For stuff that only appears in html version and should be verbatim
@@ -50,7 +47,7 @@ The variables used in this doc are:\\
 %[ endif
 \renewcommand*\familydefault{\sfdefault}
 
-\graphicspath{{./pics/}}
+\graphicspath{{files/}}
 
 \definecolor{slightlylightergray}{rgb}{0.93333,0.93,0.9137}
 
@@ -62,52 +59,68 @@ The variables used in this doc are:\\
 
 
 \begin{htmldiv}
-    \BLOCK{ if logo is defined }
-        \begin{minipage}{.15\textwidth}
-            \BLOCK{if toPdf}
-            \includegraphics[width=\textwidth]{logo.png}
-            \BLOCK{ else }
-            \HCode{<img alt="PIC" src="\VAR{logo}"/>}
-            \BLOCK{ endif }
+    \begin{minipage}[t]{.5\textwidth}
+        \BLOCK{ if logo is defined }
+        \strut\vspace*{-\baselineskip}\newline % this line is needed to align minipages top
+            \begin{minipage}{.25\textwidth}
+                \BLOCK{if toPdf}
+                \includegraphics[width=\textwidth]{logo.png}
+                \BLOCK{ else }
+                \HCode{<img alt="PIC" src="\VAR{logo}"/>}
+                \BLOCK{ endif }
+            \end{minipage}
+            \begin{minipage}{.23\textwidth}
+                \begin{tabular}{@{}ll}
+                    \VAR{ senderName }  \\ \VAR{ senderAddress } \\ \VAR{ senderCity }, \VAR{ senderStateInitials }, \VAR{ senderZipCode }
+                \end{tabular}
+            \end{minipage}
+        \BLOCK{ else }
+        \begin{minipage}[t]{.23\textwidth}
+            \strut\vspace*{-\baselineskip}\newline % this line is needed to align minipages top
+            \begin{tabular}{@{}ll}
+                \VAR{ senderName }  \\ \VAR{ senderAddress } \\ \VAR{ senderCity }, \VAR{ senderStateInitials }, \VAR{ senderZipCode }
+            \end{tabular}
         \end{minipage}
-    \BLOCK{ endif }
-    \begin{minipage}[t]{.3\textwidth}
-        \begin{tabular}{ll}
-            \VAR{ senderName }  \\ \VAR{ senderAddress } \\ \VAR{ senderCity }, \VAR{ senderStateInitials }, \VAR{ senderZipCode }
+        \BLOCK{ endif }
+        \vspace{10px}\\
+        Bill to:\vspace{6px}\\
+        \begin{tabular}{@{}l}
+            \textbf{\VAR{recipientName }} \\
+            \textbf{\VAR{recipientAddress } }\\
+            \textbf{\VAR{recipientCity }, \VAR{ recipientStateInitials } \VAR{ recipientZipCode } }
         \end{tabular}
     \end{minipage}\hfill
-    \begin{minipage}{.3\textwidth}
-        \begin{tabular}{ll}
-            \multicolumn{2}{l}{\textbf{\begin{Huge}INVOICE  \end{Huge}}}\\
-            \addlinespace[0px]\\
-            Inv\#: & \VAR{ invoiceNumber }\\
-            Issued: & \VAR{ issuedDate }\\
-            Due: & \VAR{ dueDate }
-        \end{tabular}
+    \begin{minipage}[t]{.5\textwidth}
+        \begin{flushright}
+            \strut\vspace*{-\baselineskip}\newline % this line is needed to align minipages top
+            \begin{tabular}{ll}
+                \multicolumn{2}{l}{\textbf{\begin{Huge}INVOICE  \end{Huge}}}\\
+                \addlinespace[0px]\\
+                Inv\#: & \VAR{ invoiceNumber }\\
+                Issued: & \VAR{ issuedDate }\\
+                Due: & \VAR{ dueDate }
+            \end{tabular}
+        \end{flushright}
     \end{minipage}
 \end{htmldiv}
 
 
-Bill to:\\
-\begin{tabular}{@{}l}
-\textbf{\VAR{recipientName }} \\
-\textbf{\VAR{recipientAddress } }\\
-\textbf{\VAR{recipientCity }, \VAR{ recipientStateInitials } \VAR{ recipientZipCode } }
-\end{tabular}
+
 
 \vspace{12px}
 \def\arraystretch{1.5} % For vertical spacing in table
-
-\begin{tabular}{r}
-    \begin{tabular}{@{ }>{\columncolor{white}[\interwordspace][\tabcolsep]}lp{.14\linewidth}p{.32\linewidth}lrr}
-        \cellcolor{slightlylightergray}  Date & \cellcolor{slightlylightergray} Item name &  \cellcolor{slightlylightergray}Description &  \cellcolor{slightlylightergray}Units/hrs & \cellcolor{slightlylightergray} Rate & \cellcolor{slightlylightergray} Subtotal \\
-            %[ for entry in entries
-            \VAR{ entry.date } & \VAR{ entry.title } & \VAR{ entry.description } & \VAR{ entry.units } & \$\VAR{ entry.rate } & \$\VAR{ entry.total }\\
-            %[ endfor
-            \cline{1-6}
-    \end{tabular}\\
-            \addlinespace[9px]\\
-    \begin{tabular}{rrr}
+% The table is build so that the Date, Units/hrs, Rate and Subtotal columns get the size they need. The remaining width
+% is then split between Item name and Description. Where item name gets 35% (.7) and Description gets 65%(1.3) of the remaining space
+\begin{tabularx}{\linewidth}[l]{l>{\hsize=.7\hsize\linewidth=\hsize}X>{\hsize=1.3\hsize\linewidth=\hsize}Xlrr}
+    \cellcolor{slightlylightergray}  Date & \cellcolor{slightlylightergray} Item name &  \cellcolor{slightlylightergray}Description &  \cellcolor{slightlylightergray}Units/hrs & \cellcolor{slightlylightergray} Rate & \cellcolor{slightlylightergray} Subtotal \\
+    \endhead
+        %[ for entry in entries
+        \VAR{ entry.date } & \VAR{ entry.title } & \VAR{ entry.description } & \VAR{ entry.units } & \$\VAR{ entry.rate } & \$\VAR{ entry.total }\\
+        %[ endfor
+        \cline{1-6}
+\end{tabularx}
+\vspace{9px}
+\begin{flushright}\begin{tabular}{rrr}
         \textbf{Subtotal} && \textbf{\$\VAR{ subtotal }}\\
         \BLOCK{if taxesAmount is defined }
         Taxes & \VAR{ taxesPercent }\%  & \$\VAR{ taxesAmount }\\
@@ -116,7 +129,7 @@ Bill to:\\
         \cline{1-3} \vspace{-12px}\\
         \begin{large}\textbf{Total} \end{large} && \begin{large} \textbf{\$\VAR{ totalAmount }}\end{large}\\
     \end{tabular}
-\end{tabular}
+\end{flushright}
 \vspace{1cm}
 
 

@@ -6,7 +6,66 @@ import ast
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader, meta
 
-def test_template(name,data, to_pdf, images = {}):
+def test_latex_compiler(to_pdf,tex,files={}):
+
+    print("##########################################################")
+    print("##########################################################")
+    print(f"############# testing tex  ##############")
+    print(f"#############  {'PDF ' if to_pdf else 'HTML'}                         ##############")
+    print("##########################################################")
+    print("##################   TEX     ################")
+    print(tex)
+
+    payload = json.dumps({
+        "tex": tex,
+        "to_pdf": to_pdf,
+        "files" : files
+        })
+
+    client = boto3.client('lambda')
+
+    response = client.invoke(
+        FunctionName="latex_compiler",
+        InvocationType='RequestResponse',
+        Payload=payload,
+    )
+
+    res = json.loads(response['Payload'].read().decode())
+    print()
+    print("####################  RES  ##############################")
+
+    print([key for key in res])
+
+    out_dir = './test_output/'
+
+    for ending in ['pdf','css','log']:
+        if ending in res:
+            print(f"############# write document.{ending}         ###############")
+            with open(os.path.join(out_dir, f'document.{ending}'), 'wb+') as outfile:
+                outfile.write(base64.b64decode(res[ending]))
+
+    for ending in ['html','tex']:
+        if ending in res:
+            print(f"############# write document.{ending}         ###############")
+            with open(os.path.join(out_dir, f'document.{ending}'), 'w+') as outfile:
+                outfile.write(res[ending])
+
+    for out in ['stdout','stderr','errorMessage']:
+        if out in res:
+            print(f"############# write {out} to {out}.txt ###############")
+            with open(os.path.join(out_dir, f'{out}.txt'), 'w+') as outfile:
+                outfile.write(res[out])
+
+
+    for tx in ['stackTrace','data','images']:
+        if tx in res:
+            print(f"\n############# PRINT {tx}      #########################")
+            print(res[tx])
+            print()
+
+
+
+def test_template(name,data, to_pdf, files = {}, images = {}):
 
     print("##########################################################")
     print("##########################################################")
@@ -18,7 +77,7 @@ def test_template(name,data, to_pdf, images = {}):
         "name": name,
         "data": data,
         "to_pdf": to_pdf,
-        "images" : images
+        "files" : images
         })
 
     print()
@@ -28,7 +87,7 @@ def test_template(name,data, to_pdf, images = {}):
     client = boto3.client('lambda')
 
     response = client.invoke(
-        FunctionName="latex_compiler",
+        FunctionName="lambda_main_latex",
         InvocationType='RequestResponse',
         Payload=payload,
     )
@@ -67,6 +126,13 @@ def test_template(name,data, to_pdf, images = {}):
             print(res[tx])
             print()
 
+import time
+time.sleep(1)
+
+if input("Test tex compiler to pdf y/N") == 'y':
+    test_latex_compiler(True, "\\documentclass[12pt]{article}\\begin{document}\\section*{Notes for My Paper}Don't forget to include examples of topicalization.They look like this\\end{document}")
+if input("Test tex compiler to html y/N") == 'y':
+    test_latex_compiler(False, "\\documentclass[12pt]{article}\\begin{document}\\section*{Notes for My Paper}Don't forget to include examples of topicalization.They look like this\\end{document}")
 
 if input("Test Consulting Agreement y/N") == 'y':
     test_template("contract",{
@@ -168,16 +234,7 @@ if input("Test invoice y/N") == 'y':
                     'units': '01:21 hrs',
                     'rate': 75,
                     'total': 101.35
-                }
-            ]
-        },
-        True,
-        images = {
-            "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
-            })
-    test_template("invoice",
-        {
-            "entries":[
+                },
                 {
                     'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
                     'title': 'Logo',
@@ -193,12 +250,197 @@ if input("Test invoice y/N") == 'y':
                     'units': '01:21 hrs',
                     'rate': 75,
                     'total': 101.35
-                }
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
             ]
-        },False,
-    images = {
-        "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
-        })
+        },
+        True,
+        images = {
+            #"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+            })
+    # test_template("invoice",
+    #     {
+    #         "entries":[
+    #             {
+    #                 'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+    #                 'title': 'Logo',
+    #                 'description': 'Logo variants' ,
+    #                 'units': '02 units',
+    #                 'rate': 80,
+    #                 'total': 160
+    #             },
+    #             {
+    #                 'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+    #                 'title': 'Squad core team',
+    #                 'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+    #                 'units': '01:21 hrs',
+    #                 'rate': 75,
+    #                 'total': 101.35
+    #             }
+    #         ]
+    #     },False,
+    # images = {
+    #     "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+    #     })
 
 
 for temp in ['contract','nda','invoice']:

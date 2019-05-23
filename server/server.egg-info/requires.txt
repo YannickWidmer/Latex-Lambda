@@ -1,0 +1,4 @@
+flask
+pybase64
+boto3
+bs4

@@ -22,16 +22,18 @@ app.config.from_envvar('LATEXLAMBDA_SETTINGS', silent=True)
 
 
 def get_html(data, container_name):
+
     data['to_pdf'] = False
     payload = json.dumps(data)
     client = boto3.client('lambda')
 
     response = client.invoke(
-        FunctionName="latex_compiler",
+        FunctionName="lambda_main_latex",
         InvocationType='RequestResponse',
         Payload=payload,)
 
     res = json.loads(response['Payload'].read().decode())
+    print([key for key in res])
     if 'html' not in res:
         raise ValueError(res)
     return render_template(container_name,content=res['html'])
@@ -122,7 +124,7 @@ def submit():
                 }
             ],
         },
-        "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
+        "files": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
         },'edit_invoice.html')
 
 
@@ -168,7 +170,7 @@ def submit():
                 }
             ]
         },
-        "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
+        "files": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
         })
 
     elif request.form['action'] == 'Download_consulting_agreement':
@@ -238,7 +240,7 @@ def invoice_page():
                 }
             ]
         },
-        "images": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
+        "files": {"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"}
     },
     'edit_invoice.html')
 
