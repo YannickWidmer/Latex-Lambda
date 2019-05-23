@@ -46,6 +46,7 @@ RUN tlmgr install xcolor \
                   lm \
                   sectsty \
                   stringstrings \
+                  longtable \
                   multirow \
                   adjustbox \
                   collectbox \

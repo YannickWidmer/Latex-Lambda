@@ -65,7 +65,7 @@ def test_latex_compiler(to_pdf,tex,files={}):
 
 
 
-def test_template(name,data, to_pdf, files = {}):
+def test_template(name,data, to_pdf, files = {}, images = {}):
 
     print("##########################################################")
     print("##########################################################")
@@ -77,7 +77,7 @@ def test_template(name,data, to_pdf, files = {}):
         "name": name,
         "data": data,
         "to_pdf": to_pdf,
-        "files" : files
+        "files" : images
         })
 
     print()
@@ -126,6 +126,8 @@ def test_template(name,data, to_pdf, files = {}):
             print(res[tx])
             print()
 
+import time
+time.sleep(1)
 
 if input("Test tex compiler to pdf y/N") == 'y':
     test_latex_compiler(True, "\\documentclass[12pt]{article}\\begin{document}\\section*{Notes for My Paper}Don't forget to include examples of topicalization.They look like this\\end{document}")
@@ -232,16 +234,7 @@ if input("Test invoice y/N") == 'y':
                     'units': '01:21 hrs',
                     'rate': 75,
                     'total': 101.35
-                }
-            ]
-        },
-        True,
-        images = {
-            "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
-            })
-    test_template("invoice",
-        {
-            "entries":[
+                },
                 {
                     'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
                     'title': 'Logo',
@@ -257,12 +250,197 @@ if input("Test invoice y/N") == 'y':
                     'units': '01:21 hrs',
                     'rate': 75,
                     'total': 101.35
-                }
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Logo',
+                    'description': 'Logo variants' ,
+                    'units': '02 units',
+                    'rate': 80,
+                    'total': 160
+                },
+                {
+                    'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                    'title': 'Squad core team',
+                    'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+                    'units': '01:21 hrs',
+                    'rate': 75,
+                    'total': 101.35
+                },
             ]
-        },False,
-    images = {
-        "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
-        })
+        },
+        True,
+        images = {
+            #"logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+            })
+    # test_template("invoice",
+    #     {
+    #         "entries":[
+    #             {
+    #                 'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+    #                 'title': 'Logo',
+    #                 'description': 'Logo variants' ,
+    #                 'units': '02 units',
+    #                 'rate': 80,
+    #                 'total': 160
+    #             },
+    #             {
+    #                 'date': datetime(2019,5,12).strftime("%Y-%m-%d %H:%M:%S.%f"),
+    #                 'title': 'Squad core team',
+    #                 'description': 'Meeting with Alex, Dima, Andrei, Maxim' ,
+    #                 'units': '01:21 hrs',
+    #                 'rate': 75,
+    #                 'total': 101.35
+    #             }
+    #         ]
+    #     },False,
+    # images = {
+    #     "logo.png" : "https://s3-us-west-2.amazonaws.com/ds-temp-stg/latex_template_test/files/logo.png"
+    #     })
 
 
 for temp in ['contract','nda','invoice']:
