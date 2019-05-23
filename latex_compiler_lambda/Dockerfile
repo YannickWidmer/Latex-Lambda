@@ -25,38 +25,38 @@ ENV PATH=/var/task/texlive/2017/bin/x86_64-linux/:$PATH
 
 # Install extra packages.
 RUN tlmgr update --self
-RUN tlmgr install xcolor \
-                  tcolorbox \
-                  trimspaces \
-                  etoolbox \
+RUN tlmgr install adjustbox \
                   booktabs \
-                  lastpage \
-                  titlesec \
-                  tabu \
-                  varwidth \
-                  makecell \
-                  enumitem \
-                  setspace \
                   catoptions \
-                  framed \
-                  parskip \
-                  footmisc \
-                  zapfding \
-                  symbol \
-                  lm \
-                  sectsty \
-                  stringstrings \
-                  longtable \
-                  multirow \
-                  adjustbox \
+                  charter \
                   collectbox \
-                  siunitx \
-                  times \
+                  enumitem \
+                  etoolbox \
+                  footmisc \
+                  framed \
+                  helvetic \
                   l3kernel \
                   l3packages \
-                  helvetic \
-                  charter \
-                  tex4ht
+                  lastpage \
+                  lm \
+                  ltablex \
+                  makecell \
+                  multirow \
+                  parskip \
+                  sectsty \
+                  setspace \
+                  siunitx \
+                  stringstrings \
+                  symbol \
+                  tabu \
+                  tcolorbox \
+                  tex4ht \
+                  times \
+                  titlesec \
+                  trimspaces \
+                  varwidth \
+                  xcolor \
+                  zapfding
 
 # Install latexmk.
 RUN tlmgr install latexmk
